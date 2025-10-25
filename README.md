@@ -5,7 +5,7 @@ An amateur radio study site written in React and TypeScript.
 Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur radio operators study for their license exams (Technician, General, Extra). The agent analyzes your performance, identifies weak areas, and facilitates targeted practice sessions. Using embeddings-based similarity search, it finds related questions to reinforce concepts, creates progress reports with actionable recommendations, and adapts the difficulty based on your performance.
 
 ## Contributors
-* Thomas
+* Thomas Jones
 
 ## Custom Functions
 1. **Initiate quiz** - When the user clicks the button to start a quiz, the AI will decide which subtopics the user should study for the current quiz. 
