@@ -19,7 +19,7 @@ Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur rad
 ## A list of new things I will need to do to accomplish your project (project risks from high to low)
 * Dynamically generate a sequence of quiz questions, based on user actions. 
 * Make a tool call that can get data from the database. 
-* Create a Zod schema validation for tool calls. 
+* Do Zod schema validation for tool calls. 
 * Load data into a database from a JSON source and generate embeddings. 
 
 ## A list of the 10 pages/views you plan on implementing for your project
