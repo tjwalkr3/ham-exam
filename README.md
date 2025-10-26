@@ -20,6 +20,7 @@ Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur rad
 * Dynamically generate a sequence of quiz questions, based on user actions. 
 * Make a tool call that can get data from the database. 
 * Do Zod schema validation for tool calls. 
+* Create a header that shows up on all of the pages, and 
 * Load data into a database from a JSON source and generate embeddings. 
 
 ## A list of the 10 pages/views you plan on implementing for your project
@@ -31,5 +32,159 @@ Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur rad
 6. **Settings** - User preferences, exam type selection, study goals
 7. **Dashboard** - View your progress towards your study goals.
 8. **Resource Library** - Additional study materials and external resources
-9. **History** - A list of all of the past quizzes you've taken, along with the date and time that each quiz was taken. 
+9. **Agent History** - A history of all of the agentic actions that have been taken, organized into a vertical timeline with the most recet at the top. 
 10. **Question Browser** - Browse the official list of questions, sorted by topic. 
+
+
+
+## Project Schedule
+### Oct 29
+#### Estimates:
+Rubric items:
+- [ ] CI/CD pipeline
+- [ ] linting in pipeline
+
+Features:
+- [ ] API and React projects created
+- [ ] Linting and testing are run in the pipeline on merge or push to main
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 5
+#### Estimates:
+Rubric items:
+- [ ] Live production environment
+- [ ] authentication and user account support
+- [ ] authorized pages and public pages
+- [ ] 4+ generic layout components
+
+Features:
+- [ ] kubernetes deployment files for the app
+- [ ] header at the top with sign-in/sign-out button and a spot to display the users' email address
+- [ ] landing page with header and basic info about the app
+- [ ] authenticated user page with header and a button to start a quiz
+- [ ] set up oidc authentication, so that the user can sign in and sign out
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 8
+#### Estimates:
+Rubric items:
+- [ ] Network Calls that read and write data
+- [ ] tests run in pipeline, pipeline aborts if they fail
+
+Features:
+- [ ] a database schema that can store the questions, categories, users, and user data
+- [ ] the questions have been loaded into the database
+- [ ] tests which make the pipeline fail if they fail
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 12
+#### Estimates:
+Rubric items:
+- [ ] 4+ generic layout component
+- [ ] 3+ generic form input component
+
+Features:
+- [ ] reusable component for rendering the question
+- [ ] reusable component for the whole page
+- [ ] a page to hold the rendered questions
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 15
+#### Estimates:
+Rubric items:
+- [ ] Network Calls that read and write data
+
+Features:
+- [ ] a function on the backend that gets the list of topics and their associated levels of mastery
+- [ ] an endpoint on the backend that can call this function and return the list of topics
+- [ ] a function on the backend that gets the questions in a group, and their associated level of mastery
+- [ ] an endpoint on the backend that can call this function and return the list of questions in a group
+- [ ] a tanstack query on the frontend that can call the list of topics endpoint
+- [ ] a tanstack query on the frontend that can call the list of questions endpoint 
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 19
+#### Estimates:
+Rubric items:
+- [ ] client side state stores (e.g. tanstack query or context)
+- [ ] 10+ pages or views
+
+Features:
+- [ ] a context with useStates in it that can store the section that is being studied and the quiz type (default to technician class)
+- [ ] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 22
+#### Estimates:
+Rubric items:
+- [ ] 
+- [ ] 
+
+Features:
+- [ ] 
+- [ ] 
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Nov 25
+#### Estimates:
+Rubric items:
+- [ ] 
+- [ ] 
+
+Features:
+- [ ] 
+- [ ] 
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Dec 3
+#### Estimates:
+Rubric items:
+- [ ] 
+- [ ] 
+
+Features:
+- [ ] 
+- [ ] 
+
+#### Delivered
+Rubric Items:
+Features:
+
+### Dec 6
+#### Estimates:
+Rubric items:
+- [ ] 
+- [ ] 
+
+Features:
+- [ ] 
+- [ ] 
+
+#### Delivered
+Rubric Items:
+Features:
+
