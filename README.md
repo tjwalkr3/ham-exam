@@ -107,12 +107,12 @@ Rubric items:
 - [ ] Network Calls that read and write data
 
 Features:
-- [ ] a function on the backend that gets the list of topics and their associated levels of mastery
-- [ ] an endpoint on the backend that can call this function and return the list of topics
-- [ ] a function on the backend that gets the questions in a group, and their associated level of mastery
-- [ ] an endpoint on the backend that can call this function and return the list of questions in a group
+- [ ] api can return the list of topics with associated levels of mastery
+- [ ] api can return a list of questions in a given group
+- [ ] api can return an explanation for a question that was answered incorrectly
 - [ ] a tanstack query on the frontend that can call the list of topics endpoint
 - [ ] a tanstack query on the frontend that can call the list of questions endpoint 
+- [ ] a tanstack query on the frontend that can get the explanation for an incorrect answer
 
 #### Delivered
 Rubric Items:
@@ -123,9 +123,12 @@ Features:
 Rubric items:
 - [ ] client side state stores (e.g. tanstack query or context)
 - [ ] 10+ pages or views
+- [ ] 1+ action(s) require user confirmation to perform
+- [ ] 1+ action(s) automatically adjust the UI when performed
 
 Features:
 - [ ] a context with useStates in it that can store the section that is being studied and the quiz type (default to technician class)
+- [ ] a custom function and associated tool call on the frontend that can start a new quiz (requires user confirmation before opening the quiz page)
 - [ ] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
 
 #### Delivered
@@ -135,12 +138,12 @@ Features:
 ### Nov 22
 #### Estimates:
 Rubric items:
-- [ ] 
-- [ ] 
+- [ ] 1+ action(s) can be performed autonomously
+- [ ] 1+ action(s) automatically adjust the UI when performed
 
 Features:
-- [ ] 
-- [ ] 
+- [ ] a custom function and associated tool call on the frontend that allows the ai to autonomously get the next question in the series (stops the loop when the user has reached 10 questions)
+- [ ] a custom function and associated tool call that redirects the user to a report that is generated based on the results of the quiz (explains correct answers for questions tha were answered incorrectly)
 
 #### Delivered
 Rubric Items:
@@ -149,12 +152,12 @@ Features:
 ### Nov 25
 #### Estimates:
 Rubric items:
-- [ ] 
+- [ ] 10+ pages/views via a router
 - [ ] 
 
 Features:
-- [ ] 
-- [ ] 
+- [ ] an additional resources page to give the user more study materials
+- [ ] A settings page where the user can set the current exam type (technician, general, and extra)
 
 #### Delivered
 Rubric Items:
