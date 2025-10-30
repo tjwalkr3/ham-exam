@@ -1,0 +1,50 @@
+### Health Check
+GET http://localhost:4444/api/health
+
+###
+
+### Get all items
+GET http://localhost:4444/api/items
+
+###
+
+### Create a new item (minimal)
+POST http://localhost:4444/api/items
+Content-Type: application/json
+
+{
+  "name": "Test Item 1",
+  "quantity": 5
+}
+
+###
+
+### Create a new item (with default quantity)
+POST http://localhost:4444/api/items
+Content-Type: application/json
+
+{
+  "name": "Test Item 2"
+}
+
+###
+
+### Create a new item (larger quantity)
+POST http://localhost:4444/api/items
+Content-Type: application/json
+
+{
+  "name": "Radio Transceiver",
+  "quantity": 100
+}
+
+###
+
+### Create a new item (edge case - quantity 1)
+POST http://localhost:4444/api/items
+Content-Type: application/json
+
+{
+  "name": "Antenna Tuner",
+  "quantity": 1
+}
