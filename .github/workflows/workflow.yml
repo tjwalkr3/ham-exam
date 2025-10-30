@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: self-hosted
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v4
+      
+    - name: Lint client
+      run: |
+        cd client
+        nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm lint"
+    
+    - name: Lint server
+      run: |
+        cd server
+        nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm lint"
+
+  test:
+    runs-on: self-hosted
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v4
+      
+    - name: Test client
+      run: |
+        cd client
+        nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm test"
+    
+    - name: Test server
+      run: |
+        cd server
+        nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm test"

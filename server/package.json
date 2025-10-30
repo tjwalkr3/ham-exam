@@ -3,7 +3,9 @@
 	"scripts": {
 		"lint": "eslint .",
 		"dev": "tsx watch server.ts",
-		"start": "tsx server.ts"
+		"start": "tsx server.ts",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
@@ -21,6 +23,7 @@
 		"globals": "^16.4.0",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.46.2"
+		"typescript-eslint": "^8.46.2",
+		"vitest": "^4.0.5"
 	}
 }
