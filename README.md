@@ -41,16 +41,20 @@ Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur rad
 ### Oct 29
 #### Estimates:
 Rubric items:
-- [ ] CI/CD pipeline
-- [ ] linting in pipeline
+- CI/CD pipeline
+- linting in pipeline
 
 Features:
-- [ ] API and React projects created
-- [ ] Linting and testing are run in the pipeline on merge or push to main
+- API and React projects created
+- Linting and testing are run in the pipeline on merge or push to main
 
 #### Delivered
 Rubric Items:
+- [x] CI/CD pipeline
+- [x] linting in pipeline
 Features:
+- [x] API and React projects created
+- [x] Linting and testing are run in the pipeline on merge or push to main
 
 ### Nov 5
 #### Estimates:
