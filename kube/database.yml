@@ -37,20 +37,19 @@ spec:
 
 ---
 
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: ham-exam
-
-resources:
-  - database.yml
-
-configMapGenerator:
-  - name: ham-exam-db-init-sql
-    files:
-      - init.sql=../config/schema.sql
-
-generatorOptions:
-  disableNameSuffixHash: true
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ham-exam-db-init-sql
+  namespace: ham-exam
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS item (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      quantity INT NOT NULL DEFAULT 1,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
 
 ---
 
