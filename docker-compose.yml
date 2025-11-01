@@ -12,38 +12,38 @@ services:
     command: >-
       sh -c "npm install -g pnpm && pnpm i && pnpm run dev -- --host"
 
-  api:
-    image: node:25-alpine3.22
-    working_dir: /app
-    ports:
-      - "4444:4444"
-    volumes:
-      - ./server:/app
-      - /app/node_modules
-    environment:
-      PORT: "4444"
-      DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
-    command: >-
-      sh -c "npm install -g pnpm && pnpm i && pnpm exec tsx server.ts"
-    depends_on:
-      - db
+#   api:
+#     image: node:25-alpine3.22
+#     working_dir: /app
+#     ports:
+#       - "4444:4444"
+#     volumes:
+#       - ./server:/app
+#       - /app/node_modules
+#     environment:
+#       PORT: "4444"
+#       DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
+#     command: >-
+#       sh -c "npm install -g pnpm && pnpm i && pnpm exec tsx server.ts"
+#     depends_on:
+#       - db
 
-  db:
-    image: postgres:18-alpine3.22
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=appuser
-      - POSTGRES_PASSWORD=apppassword
-      - POSTGRES_DB=appdb
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    configs:
-      - source: schema
-        target: /docker-entrypoint-initdb.d/schema.sql
+#   db:
+#     image: postgres:18-alpine3.22
+#     restart: unless-stopped
+#     environment:
+#       - POSTGRES_USER=appuser
+#       - POSTGRES_PASSWORD=apppassword
+#       - POSTGRES_DB=appdb
+#     volumes:
+#       - pg_data:/var/lib/postgresql/data
+#     configs:
+#       - source: schema
+#         target: /docker-entrypoint-initdb.d/schema.sql
 
-volumes:
-  pg_data:
+# volumes:
+#   pg_data:
 
-configs:
-  schema:
-    file: ./config/schema.sql
+# configs:
+#   schema:
+#     file: ./config/schema.sql
