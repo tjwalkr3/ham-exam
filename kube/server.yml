@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ham-exam-server-dep
+  namespace: ham-exam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ham-exam-server
+
+  template:
+    metadata:
+      labels:
+        app: ham-exam-server
+    spec:
+      containers:
+      - name: ham-exam-server-container
+        image: tjwalkr3/ham-exam-server:$CONTAINER_VERSION
+        env:
+        - name: PORT
+          value: "4000"
+        - name: DATABASE_URL
+          value: "postgres://chatuser:chatpassword@ham-exam-db-svc:5432/chatdb"
+        - name: AI_SERVER_URL
+          value: $AI_SERVER
+        - name: AI_TOKEN
+          value: $AI_TOKEN
+        - name: JWK_URI
+          value: $JWK_URI
+        ports:
+        - containerPort: 4000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ham-exam-server-svc
+  namespace: ham-exam
+spec:
+  selector:
+    app: ham-exam-server
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ham-exam-server-ingress
+  namespace: ham-exam
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ham.dragonbytes.org
+      secretName: tls-dragonbytes
+  rules:
+    - host: ham.dragonbytes.org
+      http:
+        paths:
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ham-exam-server-svc
+                port:
+                  number: 4000

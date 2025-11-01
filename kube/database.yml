@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ham-exam-db-dep
+  namespace: ham-exam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ham-exam-db
+
+  template:
+    metadata:
+      labels:
+        app: ham-exam-db
+    spec:
+      volumes:
+      - name: schema-init
+        configMap:
+          name: ham-exam-db-init-sql
+      containers:
+      - name: ham-exam-postgres
+        volumeMounts:
+        - mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
+          name: schema-init
+        image: postgres:18-alpine3.22
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: "chatuser"
+        - name: POSTGRES_PASSWORD
+          value: "chatpassword"
+        - name: POSTGRES_DB
+          value: "chatdb"
+
+---
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ham-exam
+
+resources:
+  - database.yml
+
+configMapGenerator:
+  - name: ham-exam-db-init-sql
+    files:
+      - init.sql=../config/schema.sql
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ham-exam-db-svc
+  namespace: ham-exam
+spec:
+  selector:
+    app: ham-exam-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
