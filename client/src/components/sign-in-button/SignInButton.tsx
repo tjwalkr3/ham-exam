@@ -27,7 +27,11 @@ function SignInButton() {
   } else if (auth.error) {
     label = "Retry Sign In";
   } else if (auth.isAuthenticated) {
-    label = "Sign Out";
+    const username = auth.user?.profile?.preferred_username 
+      || auth.user?.profile?.email 
+      || auth.user?.profile?.name 
+      || "User";
+    label = `Logout, ${username}`;
   }
 
   const isDisabled = auth.isLoading || Boolean(auth.activeNavigator);

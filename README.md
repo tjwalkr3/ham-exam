@@ -40,21 +40,24 @@ Ham Radio Study Buddy is an intelligent AI agent that helps aspiring amateur rad
 ## Project Schedule
 ### Oct 29
 #### Estimates:
-Rubric items:
-- CI/CD pipeline
-- linting in pipeline
-
-Features:
-- API and React projects created
-- Linting and testing are run in the pipeline on merge or push to main
-
-#### Delivered
 Rubric Items:
 - [x] CI/CD pipeline
 - [x] linting in pipeline
 Features:
 - [x] API and React projects created
 - [x] Linting and testing are run in the pipeline on merge or push to main
+
+### Nov 1
+#### Estimates:
+Rubric items:
+- [x] Live production environment
+- [x] authentication and user account support
+- [x] authorized pages and public pages
+- [ ] 4+ generic layout components
+
+Features:
+- [x] kubernetes deployment files for the app
+- [x] header at the top with sign-in/sign-out button and a spot to display the users' email address
 
 ### Nov 5
 #### Estimates:
@@ -65,15 +68,9 @@ Rubric items:
 - [ ] 4+ generic layout components
 
 Features:
-- [x] kubernetes deployment files for the app
-- [ ] header at the top with sign-in/sign-out button and a spot to display the users' email address
 - [ ] landing page with header and basic info about the app
 - [ ] authenticated user page with header and a button to start a quiz
 - [ ] set up oidc authentication, so that the user can sign in and sign out
-
-#### Delivered
-Rubric Items:
-Features:
 
 ### Nov 8
 #### Estimates:
@@ -86,10 +83,6 @@ Features:
 - [ ] the questions have been loaded into the database
 - [ ] tests which make the pipeline fail if they fail
 
-#### Delivered
-Rubric Items:
-Features:
-
 ### Nov 12
 #### Estimates:
 Rubric items:
@@ -100,10 +93,6 @@ Features:
 - [ ] reusable component for rendering the question
 - [ ] reusable component for the whole page
 - [ ] a page to hold the rendered questions
-
-#### Delivered
-Rubric Items:
-Features:
 
 ### Nov 15
 #### Estimates:
@@ -118,10 +107,6 @@ Features:
 - [ ] a tanstack query on the frontend that can call the list of questions endpoint 
 - [ ] a tanstack query on the frontend that can get the explanation for an incorrect answer
 
-#### Delivered
-Rubric Items:
-Features:
-
 ### Nov 19
 #### Estimates:
 Rubric items:
@@ -135,10 +120,6 @@ Features:
 - [ ] a custom function and associated tool call on the frontend that can start a new quiz (requires user confirmation before opening the quiz page)
 - [ ] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
 
-#### Delivered
-Rubric Items:
-Features:
-
 ### Nov 22
 #### Estimates:
 Rubric items:
@@ -148,10 +129,6 @@ Rubric items:
 Features:
 - [ ] a custom function and associated tool call on the frontend that allows the ai to autonomously get the next question in the series (stops the loop when the user has reached 10 questions)
 - [ ] a custom function and associated tool call that redirects the user to a report that is generated based on the results of the quiz (explains correct answers for questions tha were answered incorrectly)
-
-#### Delivered
-Rubric Items:
-Features:
 
 ### Nov 25
 #### Estimates:
@@ -163,10 +140,6 @@ Features:
 - [ ] an additional resources page to give the user more study materials
 - [ ] A settings page where the user can set the current exam type (technician, general, and extra)
 
-#### Delivered
-Rubric Items:
-Features:
-
 ### Dec 3
 #### Estimates:
 Rubric items:
@@ -175,11 +148,7 @@ Rubric items:
 
 Features:
 - [ ] 
-- [ ] 
-
-#### Delivered
-Rubric Items:
-Features:
+- [ ]
 
 ### Dec 6
 #### Estimates:
@@ -188,10 +157,5 @@ Rubric items:
 - [ ] 
 
 Features:
-- [ ] 
-- [ ] 
-
-#### Delivered
-Rubric Items:
-Features:
-
+- [ ]
+- [ ]

@@ -5,5 +5,33 @@
 }
 
 .main {
-  @apply p-4;
+  @apply max-w-4xl mx-auto px-4 py-8;
+}
+
+.hero {
+  @apply text-center mb-12 mt-8;
+}
+
+.title {
+  @apply text-4xl font-bold text-slate-800 mb-3;
+}
+
+.subtitle {
+  @apply text-xl text-slate-600;
+}
+
+.content {
+  @apply space-y-8;
+}
+
+.section {
+  @apply bg-white rounded-lg shadow-sm p-6 border border-slate-200;
+}
+
+.sectionTitle {
+  @apply text-2xl font-semibold text-slate-800 mb-3;
+}
+
+.paragraph {
+  @apply text-slate-700 leading-relaxed;
 }

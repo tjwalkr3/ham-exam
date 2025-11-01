@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './components/home/Home.tsx'
+import Home from './components/home/Home.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
 
 const stripSigninParameters = () => {
@@ -27,7 +27,7 @@ const oidcConfig : AuthProviderProps = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider {...oidcConfig}>
-      <App /> 
+      <Home /> 
     </AuthProvider>
   </StrictMode>,
 )
