@@ -1,5 +1,5 @@
 ### Health Check
-GET http://localhost:4444/api/health
+GET http://ham.dragonbytes.org/api/api/health
 
 ###
 

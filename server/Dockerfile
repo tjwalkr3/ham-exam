@@ -9,6 +9,6 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 RUN pnpm run build:server
 
-EXPOSE 4000
+EXPOSE 4444
 
 CMD ["node", "dist/server.js"]

@@ -49,7 +49,7 @@ app.get("/api/items", async (_req, res, next) => {
 });
 
 async function start() {
-  const port = 4444;
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 4444;
   app.listen(port, () =>
     console.log(`API listening on port ${port}`)
   );
