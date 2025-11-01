@@ -1,10 +1,14 @@
-import './Home.module.css'
+import Header from '../header/Header'
+import styles from './Home.module.css'
 
 function App() {
   return (
-    <>
-      <p>Hello, world!</p>
-    </>
+    <div className={styles.container}>
+      <Header />
+      <main className={styles.main}>
+        <p>Hello, world!</p>
+      </main>
+    </div>
   )
 }
 

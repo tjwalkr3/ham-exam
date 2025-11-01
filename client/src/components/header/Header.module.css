@@ -1,0 +1,11 @@
+.header {
+  @apply bg-slate-800 text-white px-4 py-3 flex items-center justify-between;
+}
+
+.logo {
+  @apply text-lg font-semibold;
+}
+
+.signInButton {
+  @apply bg-slate-600 hover:bg-slate-500 text-white px-4 py-2 rounded transition-colors;
+}

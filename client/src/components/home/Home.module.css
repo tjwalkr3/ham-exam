@@ -1,0 +1,7 @@
+.container {
+  @apply min-h-screen bg-slate-50;
+}
+
+.main {
+  @apply p-4;
+}
