@@ -2,7 +2,7 @@ FROM node:25-alpine3.22
 
 WORKDIR /app
 
-COPY app/ ./
+COPY ./server/ ./
 
 ENV CI=true
 RUN npm install -g pnpm && pnpm install --frozen-lockfile

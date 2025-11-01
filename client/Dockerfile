@@ -3,7 +3,7 @@ FROM node:25-alpine3.22 AS build
 
 WORKDIR /app
 
-COPY app/ ./
+COPY ./client/ ./
 
 ENV CI=true
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
