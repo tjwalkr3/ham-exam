@@ -12,12 +12,12 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v4
-      
+
     - name: Lint client
       run: |
         cd client
         nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm lint"
-    
+
     - name: Lint server
       run: |
         cd server
@@ -28,13 +28,77 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v4
-      
+
     - name: Test client
       run: |
         cd client
         nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm test"
-    
+
     - name: Test server
       run: |
         cd server
         nix-shell -p nodejs_22 nodePackages.pnpm --run "pnpm install && pnpm test"
+
+  build_and_push_client_to_dockerhub:
+    needs: [lint, test]
+    runs-on: self-hosted
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push client to DockerHub
+      run: |
+        docker build \
+          -f ./client/Dockerfile \
+          -t ${{ vars.DOCKERHUB_USERNAME }}/ham-exam-client:${{ github.run_number }}.${{ github.run_attempt }} \
+          .
+
+        docker push -q ${{ vars.DOCKERHUB_USERNAME }}/ham-exam-client:${{ github.run_number }}.${{ github.run_attempt }}
+
+  build_and_push_server_to_dockerhub:
+    needs: [lint, test]
+    runs-on: self-hosted
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push server to DockerHub
+      run: |
+        docker build \
+          -f ./server/Dockerfile \
+          -t ${{ vars.DOCKERHUB_USERNAME }}/ham-exam-server:${{ github.run_number }}.${{ github.run_attempt }} \
+          .
+
+        docker push -q ${{ vars.DOCKERHUB_USERNAME }}/ham-exam-server:${{ github.run_number }}.${{ github.run_attempt }}
+
+  # deploy_to_kubernetes:
+  #   needs: [build_and_push_api_to_dockerhub, build_and_push_web_to_dockerhub]
+  #   runs-on: self-hosted
+  #   steps:
+  #   - name: Check out the code. 
+  #     uses: actions/checkout@v4
+
+  #   - name: deploy to kubernetes
+  #     run: |
+  #       kubectl apply -f kube/namespace.yml
+  #       export CONTAINER_VERSION=${{ github.run_number }}.${{ github.run_attempt }}
+  #       export AI_SERVER=${{ vars.AI_SERVER }}
+  #       export JWK_URI=${{ vars.JWK_URI }}
+  #       export AI_TOKEN=${{ secrets.AI_TOKEN }}
+  
+  #       for FILE in "kube"/*
+  #       do
+  #         cat "$FILE" | envsubst | kubectl apply -f -
+  #       done
