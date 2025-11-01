@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import { z } from "zod";
 import pgPromise from "pg-promise";
-import { readFile } from "node:fs/promises";
 import { CreateItemSchema, ItemRowSchema } from "./itemModels";
 
 const pgp = pgPromise({});
@@ -18,12 +17,6 @@ app.use(express.json());
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
-
-async function ensureSchema() {
-  const raw = await readFile("../schema.sql", "utf8");
-  if (raw.trim().length === 0) return;
-  await db.none(raw); // execute sql, expect no return value
-}
 
 app.post("/api/items", async (req, res, next) => {
   try {
@@ -56,7 +49,6 @@ app.get("/api/items", async (_req, res, next) => {
 });
 
 async function start() {
-  await ensureSchema();
   const port = 4444;
   app.listen(port, () =>
     console.log(`API listening on port ${port}`)

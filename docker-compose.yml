@@ -19,7 +19,6 @@ services:
       - "4444:4444"
     volumes:
       - ./server:/app
-      - ./schema.sql:/schema.sql
       - /app/node_modules
     environment:
       PORT: "4444"
@@ -38,6 +37,13 @@ services:
       - POSTGRES_DB=appdb
     volumes:
       - pg_data:/var/lib/postgresql/data
+    configs:
+      - source: schema
+        target: /docker-entrypoint-initdb.d/schema.sql
 
 volumes:
   pg_data:
+
+configs:
+  schema:
+    file: ./config/schema.sql
