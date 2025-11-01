@@ -1,4 +1,5 @@
 import styles from './Header.module.css'
+import SignInButton from '../sign-in-button/SignInButton'
 
 function Header() {
   return (
@@ -6,9 +7,7 @@ function Header() {
       <div className={styles.logo}>
         Ham Exam
       </div>
-      <button className={styles.signInButton}>
-        Sign In
-      </button>
+      <SignInButton />
     </header>
   )
 }
