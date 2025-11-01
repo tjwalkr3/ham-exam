@@ -59,13 +59,13 @@ Features:
 ### Nov 5
 #### Estimates:
 Rubric items:
-- [ ] Live production environment
+- [x] Live production environment
 - [ ] authentication and user account support
 - [ ] authorized pages and public pages
 - [ ] 4+ generic layout components
 
 Features:
-- [ ] kubernetes deployment files for the app
+- [x] kubernetes deployment files for the app
 - [ ] header at the top with sign-in/sign-out button and a spot to display the users' email address
 - [ ] landing page with header and basic info about the app
 - [ ] authenticated user page with header and a button to start a quiz
