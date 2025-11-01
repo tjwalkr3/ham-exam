@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import { z } from "zod";
 import pgPromise from "pg-promise";
-import { CreateItemSchema, ItemRowSchema } from "./itemModels";
+import { CreateItemSchema, ItemRowSchema } from "./itemModels.js";
 
 const pgp = pgPromise({});
 const connectionString = process.env.DATABASE_URL;
@@ -24,7 +24,7 @@ app.post("/api/items", async (req, res, next) => {
     const { name, quantity } = parsed;
     const row = await db.one(
       `INSERT INTO item(name, quantity) VALUES($1, $2)
-       RETURNING id, name, quantity, created_at`,
+      RETURNING id, name, quantity, created_at`,
       [name, quantity]
     );
     const item = ItemRowSchema.parse(row);
