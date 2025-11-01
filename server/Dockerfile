@@ -11,4 +11,4 @@ RUN pnpm run build:server
 
 EXPOSE 4000
 
-CMD ["node", "dist-server/server/server.js"]
+CMD ["node", "dist/server.js"]
