@@ -57,20 +57,19 @@ Rubric items:
 
 Features:
 - [x] kubernetes deployment files for the app
-- [x] header at the top with sign-in/sign-out button and a spot to display the users' email address
+- [x] generic header component at the top with sign-in/sign-out button and a spot to display the users' email address
+- [x] set up oidc authentication, so that the user can sign in and sign out
 
 ### Nov 5
 #### Estimates:
 Rubric items:
-- [x] Live production environment
-- [ ] authentication and user account support
-- [ ] authorized pages and public pages
+- [x] authorized pages and public pages
 - [ ] 4+ generic layout components
 
 Features:
-- [ ] landing page with header and basic info about the app
+- [x] landing page with header and basic info about the app
 - [ ] authenticated user page with header and a button to start a quiz
-- [ ] set up oidc authentication, so that the user can sign in and sign out
+- [ ]
 
 ### Nov 8
 #### Estimates:

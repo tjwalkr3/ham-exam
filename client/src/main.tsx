@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import Home from './components/home/Home.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const stripSigninParameters = () => {
   const url = new URL(window.location.href);
@@ -27,7 +28,11 @@ const oidcConfig : AuthProviderProps = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider {...oidcConfig}>
-      <Home /> 
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   </StrictMode>,
 )
