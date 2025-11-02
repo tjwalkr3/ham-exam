@@ -53,11 +53,11 @@ Rubric items:
 - [x] Live production environment
 - [x] authentication and user account support
 - [x] authorized pages and public pages
-- [ ] 4+ generic layout components
+- [x] create 2/4 generic layout components
 
 Features:
 - [x] kubernetes deployment files for the app
-- [x] generic header component at the top with sign-in/sign-out button and a spot to display the users' email address
+- [x] generic header component at the top with sign-in/sign-out button and a spot to display the users' username
 - [x] set up oidc authentication, so that the user can sign in and sign out
 
 ### Nov 5
@@ -69,7 +69,7 @@ Rubric items:
 Features:
 - [x] landing page with header and basic info about the app
 - [ ] authenticated user page with header and a button to start a quiz
-- [ ]
+- [ ] generic layout component that represents a quiz question
 
 ### Nov 8
 #### Estimates:
@@ -79,7 +79,7 @@ Rubric items:
 
 Features:
 - [ ] a database schema that can store the questions, categories, users, and user data
-- [ ] the questions have been loaded into the database
+- [ ] all the questions have been loaded into the database
 - [ ] tests which make the pipeline fail if they fail
 
 ### Nov 12
