@@ -70,6 +70,7 @@ Features:
 - [x] landing page with header and basic info about the app
 - [ ] authenticated user page with header and a button to start a quiz
 - [ ] generic layout component that represents a quiz question
+- [ ] 
 
 ### Nov 8
 #### Estimates:

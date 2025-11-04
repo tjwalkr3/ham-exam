@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Home from './components/home/Home.tsx'
+import Home from './pages/home/Home.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
