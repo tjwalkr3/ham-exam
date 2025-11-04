@@ -13,11 +13,11 @@ function SignInButton() {
       return;
     }
 
-    const redirectUri = window.location.origin + window.location.pathname;
-
     if (auth.isAuthenticated) {
+      const redirectUri = window.location.origin;
       void auth.signoutRedirect({ post_logout_redirect_uri: redirectUri });
     } else {
+      const redirectUri = window.location.origin + '/user';
       void auth.signinRedirect({ redirect_uri: redirectUri });
     }
   };
