@@ -68,9 +68,9 @@ Rubric items:
 
 Features:
 - [x] landing page with header and basic info about the app
-- [ ] authenticated user page with header and a button to start a quiz
+- [x] authenticated user page with header and a button to start a quiz
+- [x] popup modal that confirms that a user wants to start a quiz
 - [ ] generic layout component that represents a quiz question
-- [ ] 
 
 ### Nov 8
 #### Estimates:
