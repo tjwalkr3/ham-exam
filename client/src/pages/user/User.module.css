@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.container {
+  @apply min-h-screen bg-slate-50;
+}
