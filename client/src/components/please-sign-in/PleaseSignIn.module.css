@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.container {
+  @apply min-h-screen bg-slate-50;
+}
+
+.main {
+  @apply max-w-2xl mx-auto px-4 py-12;
+}
+
+.content {
+  @apply bg-white rounded-lg shadow-sm p-8 border border-slate-200 text-center;
+}
+
+.title {
+  @apply text-3xl font-bold text-slate-800 mb-4;
+}
+
+.description {
+  @apply text-slate-700 leading-relaxed;
+}

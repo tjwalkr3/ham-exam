@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import Home from './pages/home/Home.tsx'
+import User from './pages/user/User.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/user" element={<User />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
