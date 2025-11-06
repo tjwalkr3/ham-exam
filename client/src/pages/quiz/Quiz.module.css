@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.container {
+  @apply min-h-screen bg-slate-50;
+}
+
+.main {
+  @apply max-w-3xl mx-auto px-4 py-12;
+}

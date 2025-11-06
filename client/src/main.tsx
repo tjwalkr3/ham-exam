@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import Home from './pages/home/Home.tsx'
 import User from './pages/user/User.tsx'
+import Quiz from './pages/quiz/Quiz.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -33,6 +34,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/user" element={<User />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
