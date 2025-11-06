@@ -1,35 +1,41 @@
 import { useState } from 'react'
 import styles from './Question.module.css'
+import type { Questions } from '../../zod-types/question'
 
-function Question() {
+interface QuestionProps {
+  questions: Questions;
+}
+
+function Question({ questions }: QuestionProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
+  const currentQuestion = questions[currentIndex];
+
   const handleNext = () => {
-    console.log('Next question');
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setSelectedAnswer(null);
+    }
   };
 
   const handleBack = () => {
-    console.log('Previous question');
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      setSelectedAnswer(null);
+    }
   };
 
   const handleAnswerSelect = (index: number) => {
     setSelectedAnswer(index);
   };
 
-  const question = "Why is it not legal to transmit a 3 kHz bandwidth USB signal with a carrier frequency of 14.348 MHz?";
-  const answers = [
-    "USB is not used on 20-meter phone",
-    "The lower 1 kHz of the signal is outside the 20-meter band",
-    "14.348 MHz is outside the 20-meter band",
-    "The upper 1 kHz of the signal is outside the 20-meter band"
-  ];
-
   return (
     <div className={styles.card}>
-      <h2 className={styles.question}>{question}</h2>
+      <h2 className={styles.question}>{currentQuestion.question}</h2>
       
       <div className={styles.answers}>
-        {answers.map((answer, index) => (
+        {currentQuestion.answers.map((answer, index) => (
           <button
             key={index}
             className={`${styles.answer} ${selectedAnswer === index ? styles.selected : ''}`}
@@ -47,6 +53,7 @@ function Question() {
           className={styles.navButton}
           onClick={handleBack}
           type="button"
+          disabled={currentIndex === 0}
         >
           Back
         </button>
@@ -54,6 +61,7 @@ function Question() {
           className={styles.navButton}
           onClick={handleNext}
           type="button"
+          disabled={currentIndex === questions.length - 1}
         >
           Next
         </button>

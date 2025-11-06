@@ -64,13 +64,13 @@ Features:
 #### Estimates:
 Rubric items:
 - [x] authorized pages and public pages
-- [ ] 4+ generic layout components
+- [x] 4+ generic layout components (I created two additional generic components)
 
 Features:
 - [x] landing page with header and basic info about the app
 - [x] authenticated user page with header and a button to start a quiz
 - [x] popup modal that confirms that a user wants to start a quiz
-- [ ] generic layout component that represents a quiz question
+- [x] generic layout component that represents a quiz question
 
 ### Nov 8
 #### Estimates:
