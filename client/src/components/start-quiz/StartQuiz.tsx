@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styles from './StartQuiz.module.css'
+import Modal from '../modal/Modal'
 
 function StartQuiz() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,24 +33,13 @@ function StartQuiz() {
         </div>
       </main>
 
-      {isModalOpen && (
-        <div className={styles.modalOverlay} onClick={handleCloseModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button 
-              className={styles.closeButton}
-              onClick={handleCloseModal}
-              type="button"
-              aria-label="Close modal"
-            >
-              ×
-            </button>
-            <h2 className={styles.modalTitle}>Quiz Settings</h2>
-            <p className={styles.modalText}>
-              Quiz configuration options will appear here.
-            </p>
-          </div>
-        </div>
-      )}
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal}
+        title="Quiz Settings"
+      >
+        <p>Quiz configuration options will appear here.</p>
+      </Modal>
     </>
   )
 }

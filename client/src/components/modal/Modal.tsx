@@ -1,0 +1,39 @@
+import { Link } from 'react-router-dom'
+import styles from './Modal.module.css'
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+        <button 
+          className={styles.closeButton}
+          onClick={onClose}
+          type="button"
+          aria-label="Close modal"
+        >
+          ×
+        </button>
+        <h2 className={styles.modalTitle}>{title}</h2>
+        <div className={styles.modalBody}>
+          {children}
+        </div>
+        <Link to="/quiz" className={styles.startButton}>
+          Start Quiz
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+export default Modal
