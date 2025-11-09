@@ -28,22 +28,22 @@ services:
 #     depends_on:
 #       - db
 
-#   db:
-#     image: postgres:18-alpine3.22
-#     restart: unless-stopped
-#     environment:
-#       - POSTGRES_USER=appuser
-#       - POSTGRES_PASSWORD=apppassword
-#       - POSTGRES_DB=appdb
-#     volumes:
-#       - pg_data:/var/lib/postgresql/data
-#     configs:
-#       - source: schema
-#         target: /docker-entrypoint-initdb.d/schema.sql
+  db:
+    image: postgres:18-alpine3.22
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=appuser
+      - POSTGRES_PASSWORD=apppassword
+      - POSTGRES_DB=appdb
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    configs:
+      - source: schema
+        target: /docker-entrypoint-initdb.d/schema.sql
 
-# volumes:
-#   pg_data:
+volumes:
+  pg_data:
 
-# configs:
-#   schema:
-#     file: ./config/schema.sql
+configs:
+  schema:
+    file: ./config/schema.sql
