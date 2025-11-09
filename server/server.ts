@@ -1,9 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { z } from "zod";
 import pgPromise from "pg-promise";
-import { CreateItemSchema, ItemRowSchema } from "./itemModels.js";
+import { getQuestionsForWeakestSubsection } from "./services/databaseService.js";
 
 const pgp = pgPromise({});
 const connectionString = process.env.DATABASE_URL;
@@ -18,31 +17,11 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/api/items", async (req, res, next) => {
+app.get("/api/questions/:licenseClass/:username", async (req, res, next) => {
   try {
-    const parsed = CreateItemSchema.parse(req.body);
-    const { name, quantity } = parsed;
-    const row = await db.one(
-      `INSERT INTO item(name, quantity) VALUES($1, $2)
-      RETURNING id, name, quantity, created_at`,
-      [name, quantity]
-    );
-    const item = ItemRowSchema.parse(row);
-    res.json(item);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get("/api/items", async (_req, res, next) => {
-  try {
-    const rows = await db.manyOrNone(
-      `SELECT id, name, quantity, created_at FROM item ORDER BY id DESC LIMIT 100`
-    );
-
-    const ItemsArraySchema = z.array(ItemRowSchema);
-    const items = ItemsArraySchema.parse(rows);
-    res.json(items);
+    const { licenseClass, username } = req.params;
+    const questions = await getQuestionsForWeakestSubsection(licenseClass, username);
+    res.json(questions);
   } catch (err) {
     next(err);
   }

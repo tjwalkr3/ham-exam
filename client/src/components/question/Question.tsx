@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styles from './Question.module.css'
-import type { Questions } from '../../zod-types/question'
+import type { Questions } from '../../zod-types/questionModel'
 
 interface QuestionProps {
   questions: Questions;

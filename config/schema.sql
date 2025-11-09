@@ -64,13 +64,13 @@ CREATE INDEX idx_user_question_mastery_last_asked ON user_question_mastery(user_
 -- Ham Radio Exam Question Data
 -- Generated from JSON files
 
--- Insert license classes
+INSERT INTO users (username) VALUES ('testuser');
+
 INSERT INTO license_classes (code, name, description) VALUES
   ('E', 'Extra', 'Highest class amateur radio license'),
   ('G', 'General', 'Intermediate amateur radio license'),
   ('T', 'Technician', 'Entry-level amateur radio license');
 
--- Insert subsections
 INSERT INTO subsections (id, license_class, section_number, subsection_letter) VALUES
   ('E0A', 'E', '0', 'A'),
   ('E1A', 'E', '1', 'A'),
@@ -193,7 +193,6 @@ INSERT INTO subsections (id, license_class, section_number, subsection_letter) V
   ('T9A', 'T', '9', 'A'),
   ('T9B', 'T', '9', 'B');
 
--- Insert questions
 INSERT INTO questions (id, subsection_id, question_text, fcc_refs) VALUES
   ('E0A01', 'E0A', 'What is the primary function of an external earth connection or ground rod?', ''),
   ('E0A02', 'E0A', 'When evaluating RF exposure levels from your station at a neighbor’s home, what must you do?', ''),
@@ -1636,7 +1635,6 @@ INSERT INTO questions (id, subsection_id, question_text, fcc_refs) VALUES
   ('T9B11', 'T9B', 'Which of the following types of feed line has the lowest loss at VHF and UHF?', ''),
   ('T9B12', 'T9B', 'What is standing wave ratio (SWR)?', '');
 
--- Insert answers
 INSERT INTO answers (question_id, answer_text, is_correct, answer_order) VALUES
   ('E0A01', 'Prevent static build up on power lines', FALSE, 0),
   ('E0A01', 'Lightning charge dissipation', TRUE, 1),

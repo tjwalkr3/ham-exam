@@ -12,21 +12,21 @@ services:
     command: >-
       sh -c "npm install -g pnpm && pnpm i && pnpm run dev -- --host"
 
-#   api:
-#     image: node:25-alpine3.22
-#     working_dir: /app
-#     ports:
-#       - "4444:4444"
-#     volumes:
-#       - ./server:/app
-#       - /app/node_modules
-#     environment:
-#       PORT: "4444"
-#       DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
-#     command: >-
-#       sh -c "npm install -g pnpm && pnpm i && pnpm exec tsx server.ts"
-#     depends_on:
-#       - db
+  api:
+    image: node:25-alpine3.22
+    working_dir: /app
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      PORT: "4444"
+      DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
+    command: >-
+      sh -c "npm install -g pnpm && pnpm i && pnpm exec tsx server.ts"
+    depends_on:
+      - db
 
   db:
     image: postgres:18-alpine3.22

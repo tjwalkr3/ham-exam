@@ -1,7 +1,7 @@
 import Header from '../../components/header/Header'
 import Question from '../../components/question/Question'
 import styles from './Quiz.module.css'
-import type { Questions } from '../../zod-types/question'
+import type { Questions } from '../../zod-types/questionModel'
 
 function Quiz() {
   const questions: Questions = [
