@@ -1,10 +1,30 @@
 import { db } from '../server.js';
 import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
 
+async function ensureUserExists(username: string): Promise<number> {
+  const result = await db.oneOrNone(
+    'SELECT id FROM users WHERE username = $1',
+    [username]
+  );
+  
+  if (result) {
+    return result.id;
+  }
+  
+  const newUser = await db.one(
+    'INSERT INTO users (username) VALUES ($1) RETURNING id',
+    [username]
+  );
+  
+  return newUser.id;
+}
+
 export async function getQuestionsForWeakestSubsection(
   licenseClass: string,
   username: string
 ): Promise<Question[]> {
+  await ensureUserExists(username);
+
   const query = `
     WITH user_lookup AS (
       SELECT id FROM users WHERE username = $2
