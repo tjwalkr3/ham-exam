@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+.carousel {
+  @apply w-full;
+}
+
+.content {
+  @apply mb-4;
+}
+
+.navigation {
+  @apply flex justify-between items-center gap-4 mt-6;
+}
+
+.counter {
+  @apply text-slate-600 font-medium;
+}
+
+.nextButton {
+  @apply bg-slate-800 hover:bg-slate-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors;
+}
+
+.nextButton:disabled {
+  @apply bg-slate-300 cursor-not-allowed;
+}
+
+.nextButton:disabled:hover {
+  @apply bg-slate-300;
+}

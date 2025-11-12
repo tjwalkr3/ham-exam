@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
 import Header from '../../components/header/Header'
-import Question from '../../components/question/Question'
+import Carousel from '../../components/carousel/Carousel'
+import QuestionCard from '../../components/question-card/QuestionCard'
 import styles from './Quiz.module.css'
 import { useQuizQuestions } from '../../hooks/quizHooks'
 
@@ -8,6 +10,15 @@ function Quiz() {
   const auth = useAuth();
   const username = auth.user?.profile.preferred_username || '';
   const { data: questions, isLoading, error } = useQuizQuestions('T', username);
+  const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
+
+  const handleQuestionSubmit = (index: number) => {
+    setSubmittedQuestions(prev => new Set(prev).add(index));
+  };
+
+  const isNextEnabled = (index: number) => {
+    return submittedQuestions.has(index);
+  };
 
   if (isLoading) {
     return (
@@ -42,11 +53,19 @@ function Quiz() {
     );
   }
 
+  const questionCards = questions.map((question, index) => (
+    <QuestionCard 
+      key={question.id}
+      question={question}
+      onSubmit={() => handleQuestionSubmit(index)}
+    />
+  ));
+
   return (
     <div className={styles.container}>
       <Header />
       <main className={styles.main}>
-        <Question questions={questions} />
+        <Carousel items={questionCards} onNextEnabled={isNextEnabled} />
       </main>
     </div>
   )

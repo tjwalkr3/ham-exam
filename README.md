@@ -90,9 +90,9 @@ Rubric items:
 - [ ] 3+ generic form input component
 
 Features:
-- [ ] turn the component that renders multiple questions into a generic carousel component
+- [x] turn the component that renders multiple questions into a generic carousel component
 - [ ] add an API endpoint that adds points to a question's mastery count, based on whether a user has answered the question correctly
-- [ ] make the quiz question itself a generic form component that goes inside of the generic carousel component (it should have a button to check your answer inside of it, and this should make a request to the new mastery endpoint)
+- [x] make the quiz question itself a generic form component that goes inside of the generic carousel component (it should have a button to check your answer inside of it, and this should make a request to the new mastery endpoint)
 - [ ] add a page that is shown at the end of a quiz that displays your score
 
 ### Nov 15

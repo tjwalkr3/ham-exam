@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+.card {
+  @apply bg-white rounded-lg shadow-sm p-8 border border-slate-200;
+}
+
+.question {
+  @apply text-2xl font-semibold text-slate-800 mb-6;
+}
+
+.answers {
+  @apply space-y-3 mb-6;
+}
+
+.answer {
+  @apply w-full text-left p-4 rounded-lg border-2 border-slate-200 bg-white hover:border-slate-400 transition-colors flex items-start gap-3;
+}
+
+.answer:disabled {
+  @apply cursor-not-allowed;
+}
+
+.answer.selected {
+  @apply border-slate-800 bg-slate-50;
+}
+
+.answer.correct {
+  @apply border-green-600 bg-green-50 hover:border-green-600;
+}
+
+.answer.incorrect {
+  @apply border-red-600 bg-red-50 hover:border-red-600;
+}
+
+.answerLabel {
+  @apply font-semibold text-slate-800 flex-shrink-0;
+}
+
+.answerText {
+  @apply text-slate-700;
+}
+
+.submitContainer {
+  @apply flex justify-center mt-6;
+}
+
+.submitButton {
+  @apply bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors;
+}
+
+.submitButton:disabled {
+  @apply bg-slate-300 cursor-not-allowed;
+}
+
+.submitButton:disabled:hover {
+  @apply bg-slate-300;
+}
+
+.feedback {
+  @apply mt-6 p-4 rounded-lg font-semibold flex items-center justify-between;
+}
+
+.feedbackCorrect {
+  @apply bg-green-100 text-green-800 border-2 border-green-600;
+}
+
+.feedbackIncorrect {
+  @apply bg-red-100 text-red-800 border-2 border-red-600;
+}
+
+.reference {
+  @apply text-sm font-normal text-slate-600;
+}
