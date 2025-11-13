@@ -38,3 +38,6 @@ spec:
   selector:
     app: ham-exam-db
   ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
