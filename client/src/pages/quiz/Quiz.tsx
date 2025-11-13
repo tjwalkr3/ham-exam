@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
+import { useParams } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Carousel from '../../components/carousel/Carousel'
 import QuestionCard from '../../components/question-card/QuestionCard'
@@ -8,8 +9,9 @@ import { useQuizQuestions, useSubmitAnswer } from '../../hooks/quizHooks'
 
 function Quiz() {
   const auth = useAuth();
+  const { subsectionCode } = useParams<{ subsectionCode: string }>();
   const token = auth.user?.access_token || '';
-  const { data: questions, isLoading, error } = useQuizQuestions('T', token);
+  const { data: questions, isLoading, error } = useQuizQuestions(subsectionCode || '', token);
   const submitAnswer = useSubmitAnswer(token);
   const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
 

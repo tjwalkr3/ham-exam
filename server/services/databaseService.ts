@@ -1,6 +1,7 @@
 import { db } from '../server.js';
 import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
 import { AnswerSubmission } from '../zod-types/answerSubmissionModel.js';
+import { SubsectionMastery, SubsectionMasteriesSchema } from '../zod-types/subsectionMasteryModel.js';
 
 async function ensureUserExists(username: string): Promise<number> {
   const result = await db.oneOrNone(
@@ -47,6 +48,56 @@ export async function getQuestionsForWeakestSubsection(
   `;
 
   const rows = await db.manyOrNone(query, [userId, licenseClass]);
+  const questions = rows.map(row => row.content);
+  
+  return QuestionsSchema.parse(questions);
+}
+
+export async function getSubsectionMasteries(
+  licenseClass: string,
+  username: string
+): Promise<SubsectionMastery[]> {
+  const userId = await ensureUserExists(username);
+
+  const query = `
+    SELECT 
+      s.code,
+      COALESCE(SUM(uqm.mastery), 0) as total_mastery,
+      EXTRACT(EPOCH FROM MAX(uqm.last_asked_date + uqm.last_asked_time)::timestamp) * 1000 as last_studied
+    FROM subsection s
+    JOIN license_class lc ON s.license_class_id = lc.id
+    JOIN question q ON q.subsection_id = s.id
+    LEFT JOIN user_question_mastery uqm ON uqm.question_id = q.id AND uqm.user_id = $1
+    WHERE lc.code = $2
+    GROUP BY s.code
+    ORDER BY total_mastery, s.code
+  `;
+
+  const rows = await db.manyOrNone(query, [userId, licenseClass]);
+  const masteries = rows.map(row => ({
+    code: row.code,
+    totalMastery: parseFloat(row.total_mastery),
+    lastStudied: row.last_studied ? parseFloat(row.last_studied) : null,
+  }));
+  
+  return SubsectionMasteriesSchema.parse(masteries);
+}
+
+export async function getQuestionsForSubsection(
+  subsectionCode: string,
+  username: string
+): Promise<Question[]> {
+  await ensureUserExists(username);
+
+  const query = `
+    SELECT q.content
+    FROM question q
+    JOIN subsection s ON q.subsection_id = s.id
+    WHERE s.code = $1
+    ORDER BY q.code
+  `;
+
+  const rows = await db.manyOrNone(query, [subsectionCode]);
   const questions = rows.map(row => row.content);
   
   return QuestionsSchema.parse(questions);

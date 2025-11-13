@@ -19,3 +19,31 @@
 .startButton {
   @apply bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors;
 }
+
+.loading {
+  @apply text-center py-8;
+}
+
+.spinner {
+  @apply w-12 h-12 mx-auto mb-4 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin;
+}
+
+.modalContent {
+  @apply text-center py-4;
+}
+
+.recommendation {
+  @apply text-lg mb-3;
+}
+
+.masteryInfo {
+  @apply text-slate-600 mb-2;
+}
+
+.lastStudied {
+  @apply text-slate-500 text-sm mb-6;
+}
+
+.confirmButton {
+  @apply inline-block bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors no-underline;
+}

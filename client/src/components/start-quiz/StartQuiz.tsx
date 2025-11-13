@@ -1,9 +1,15 @@
 import { useState } from 'react'
+import { useAuth } from 'react-oidc-context'
+import { Link } from 'react-router-dom'
 import styles from './StartQuiz.module.css'
 import Modal from '../modal/Modal'
+import { useSubsectionMasteries } from '../../hooks/quizHooks'
 
 function StartQuiz() {
+  const auth = useAuth();
+  const token = auth.user?.access_token || '';
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: masteries, isLoading } = useSubsectionMasteries('T', token);
 
   const handleStartQuiz = () => {
     setIsModalOpen(true);
@@ -12,6 +18,8 @@ function StartQuiz() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const recommendedSubsection = masteries?.[0];
 
   return (
     <>
@@ -36,9 +44,37 @@ function StartQuiz() {
       <Modal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal}
-        title="Quiz Settings"
+        title="Start Quiz"
       >
-        <p>Quiz configuration options will appear here.</p>
+        {isLoading ? (
+          <div className={styles.loading}>
+            <div className={styles.spinner}></div>
+            <p>Finding the best subsection for you...</p>
+          </div>
+        ) : recommendedSubsection ? (
+          <div className={styles.modalContent}>
+            <p className={styles.recommendation}>
+              We recommend studying subsection <strong>{recommendedSubsection.code}</strong>
+            </p>
+            <p className={styles.masteryInfo}>
+              Current mastery: {recommendedSubsection.totalMastery} points
+            </p>
+            {recommendedSubsection.lastStudied && (
+              <p className={styles.lastStudied}>
+                Last studied: {new Date(recommendedSubsection.lastStudied).toLocaleDateString()}
+              </p>
+            )}
+            <Link 
+              to={`/quiz/${recommendedSubsection.code}`}
+              className={styles.confirmButton}
+              onClick={handleCloseModal}
+            >
+              Start Quiz
+            </Link>
+          </div>
+        ) : (
+          <p>No subsections available.</p>
+        )}
       </Modal>
     </>
   )

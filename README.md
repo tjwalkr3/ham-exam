@@ -101,7 +101,8 @@ Features:
 ### Nov 15
 #### Estimates:
 Rubric items:
-- [ ] Network Calls that read and write data
+- [ ] 
+- [ ] Tool call: 1+ action(s) require user confirmation to perform
 
 Features:
 - [ ] api can return the list of topics with associated levels of mastery

@@ -38,7 +38,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/user" element={<User />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/quiz/:subsectionCode" element={<Quiz />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

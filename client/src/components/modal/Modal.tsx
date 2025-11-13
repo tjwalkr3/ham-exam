@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import styles from './Modal.module.css'
 
 interface ModalProps {
@@ -28,9 +27,6 @@ function Modal({ isOpen, onClose, title, children }: ModalProps) {
         <div className={styles.modalBody}>
           {children}
         </div>
-        <Link to="/quiz" className={styles.startButton}>
-          Start Quiz
-        </Link>
       </div>
     </div>
   )
