@@ -8,8 +8,8 @@ import { useQuizQuestions } from '../../hooks/quizHooks'
 
 function Quiz() {
   const auth = useAuth();
-  const username = auth.user?.profile.preferred_username || '';
-  const { data: questions, isLoading, error } = useQuizQuestions('T', username);
+  const token = auth.user?.access_token || '';
+  const { data: questions, isLoading, error } = useQuizQuestions('T', token);
   const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
 
   const handleQuestionSubmit = (index: number) => {

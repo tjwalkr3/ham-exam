@@ -1,5 +1,6 @@
 import { db } from '../server.js';
 import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
+import { AnswerSubmission } from '../zod-types/answerSubmissionModel.js';
 
 async function ensureUserExists(username: string): Promise<number> {
   const result = await db.oneOrNone(
@@ -49,4 +50,23 @@ export async function getQuestionsForWeakestSubsection(
   const questions = rows.map(row => row.content);
   
   return QuestionsSchema.parse(questions);
+}
+
+export async function recordAnswer(
+  username: string,
+  submission: AnswerSubmission
+): Promise<void> {
+  const userId = await ensureUserExists(username);
+  const masteryDelta = submission.correct ? 1 : -1;
+
+  await db.none(
+    `INSERT INTO user_question_mastery (user_id, question_id, mastery, last_asked_time, last_asked_date)
+     VALUES ($1, $2, $3, NOW(), CURRENT_DATE)
+     ON CONFLICT (user_id, question_id)
+     DO UPDATE SET
+       mastery = user_question_mastery.mastery + $3,
+       last_asked_time = NOW(),
+       last_asked_date = CURRENT_DATE`,
+    [userId, submission.questionId, masteryDelta]
+  );
 }
