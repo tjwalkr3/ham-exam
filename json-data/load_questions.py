@@ -1,134 +1,105 @@
 #!/usr/bin/env python3
-"""
-Load ham radio exam questions from JSON files and generate SQL insert statements.
-"""
 
 import json
 from pathlib import Path
-from typing import Dict, List, Set
 
-def load_json_file(filepath: Path) -> List[Dict]:
-    """Load and parse a JSON file."""
-    with open(filepath, 'r', encoding='utf-8') as f:
-        return json.load(f)
-
-def extract_subsection_id(question_id: str) -> str:
-    """Extract the 3-character subsection ID (e.g., 'T1A' from 'T1A01')."""
-    return question_id[:3]
-
-def sql_escape(text: str) -> str:
-    """Escape single quotes for SQL."""
+def sql_escape(text):
     return text.replace("'", "''")
 
-def generate_sql(json_files: List[Path], output_file: Path):
-    """Generate SQL insert statements from JSON files."""
+def main():
+    json_dir = Path(__file__).parent
+    schema_file = Path(__file__).parent.parent / 'config' / 'schema.sql'
     
-    # License class mapping
+    json_files = ['technician.json', 'general.json', 'extra.json']
+    
     license_classes = {
-        'T': {'name': 'Technician', 'description': 'Entry-level amateur radio license'},
-        'G': {'name': 'General', 'description': 'Intermediate amateur radio license'},
-        'E': {'name': 'Extra', 'description': 'Highest class amateur radio license'}
+        'T': ('Technician', 'Entry-level amateur radio license'),
+        'G': ('General', 'Intermediate amateur radio license'),
+        'E': ('Extra', 'Highest class amateur radio license')
     }
     
-    # Collect all unique subsections
-    subsections: Set[str] = set()
     all_questions = []
+    subsections = set()
     
-    # Load all questions from JSON files
-    for json_file in json_files:
-        questions = load_json_file(json_file)
-        all_questions.extend(questions)
-        for q in questions:
-            subsections.add(extract_subsection_id(q['id']))
+    for filename in json_files:
+        with open(json_dir / filename, 'r') as f:
+            questions = json.load(f)
+            all_questions.extend(questions)
+            for q in questions:
+                subsections.add(q['id'][:3])
     
-    # Sort for consistent output
-    subsections = sorted(subsections)
     all_questions.sort(key=lambda q: q['id'])
+    subsections = sorted(subsections)
     
-    # Generate SQL file
-    with open(output_file, 'w', encoding='utf-8') as f:
-        f.write("-- Ham Radio Exam Question Data\n")
-        f.write("-- Generated from JSON files\n\n")
+    with open(schema_file, 'w') as f:
+        f.write('CREATE TABLE license_class (\n')
+        f.write('  id SERIAL PRIMARY KEY,\n')
+        f.write('  code CHAR(1) NOT NULL UNIQUE,\n')
+        f.write('  name VARCHAR(50) NOT NULL,\n')
+        f.write('  description TEXT\n')
+        f.write(');\n\n')
         
-        # Insert license classes
-        f.write("-- Insert license classes\n")
-        f.write("INSERT INTO license_classes (code, name, description) VALUES\n")
-        license_values = []
-        for code in sorted(license_classes.keys()):
-            lc = license_classes[code]
-            license_values.append(
-                f"  ('{code}', '{lc['name']}', '{lc['description']}')"
-            )
-        f.write(',\n'.join(license_values) + ';\n\n')
+        f.write('CREATE TABLE subsection (\n')
+        f.write('  id SERIAL PRIMARY KEY,\n')
+        f.write('  code VARCHAR(3) NOT NULL UNIQUE,\n')
+        f.write('  license_class_id INTEGER NOT NULL REFERENCES license_class(id)\n')
+        f.write(');\n\n')
         
-        # Insert subsections
-        f.write("-- Insert subsections\n")
-        f.write("INSERT INTO subsections (id, license_class, section_number, subsection_letter) VALUES\n")
-        subsection_values = []
-        for sub_id in subsections:
-            license_class = sub_id[0]
-            section_num = sub_id[1]
-            subsection_letter = sub_id[2]
-            subsection_values.append(
-                f"  ('{sub_id}', '{license_class}', '{section_num}', '{subsection_letter}')"
-            )
-        f.write(',\n'.join(subsection_values) + ';\n\n')
+        f.write('CREATE TABLE question (\n')
+        f.write('  id SERIAL PRIMARY KEY,\n')
+        f.write('  code VARCHAR(5) NOT NULL UNIQUE,\n')
+        f.write('  subsection_id INTEGER NOT NULL REFERENCES subsection(id),\n')
+        f.write('  content JSONB NOT NULL\n')
+        f.write(');\n\n')
         
-        # Insert questions
-        f.write("-- Insert questions\n")
-        f.write("INSERT INTO questions (id, subsection_id, question_text, fcc_refs) VALUES\n")
-        question_values = []
+        f.write('CREATE TABLE "user" (\n')
+        f.write('  id SERIAL PRIMARY KEY,\n')
+        f.write('  username VARCHAR(100) NOT NULL UNIQUE\n')
+        f.write(');\n\n')
+        
+        f.write('CREATE TABLE user_question_mastery (\n')
+        f.write('  id SERIAL PRIMARY KEY,\n')
+        f.write('  user_id INTEGER NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,\n')
+        f.write('  question_id INTEGER NOT NULL REFERENCES question(id) ON DELETE CASCADE,\n')
+        f.write('  mastery DECIMAL(5,2) NOT NULL DEFAULT 0.00,\n')
+        f.write('  last_asked_time TIME,\n')
+        f.write('  last_asked_date DATE,\n')
+        f.write('  UNIQUE(user_id, question_id)\n')
+        f.write(');\n\n')
+        
+        f.write('CREATE INDEX idx_subsection_license ON subsection(license_class_id);\n')
+        f.write('CREATE INDEX idx_question_subsection ON question(subsection_id);\n')
+        f.write('CREATE INDEX idx_uqm_user ON user_question_mastery(user_id);\n')
+        f.write('CREATE INDEX idx_uqm_question ON user_question_mastery(question_id);\n\n')
+        
+        f.write('INSERT INTO "user" (username) VALUES (\'testuser\');\n\n')
+        
+        f.write('INSERT INTO license_class (code, name, description) VALUES\n')
+        values = [f"  ('{code}', '{name}', '{desc}')" 
+                  for code, (name, desc) in sorted(license_classes.items())]
+        f.write(',\n'.join(values) + ';\n\n')
+        
+        f.write('INSERT INTO subsection (code, license_class_id) VALUES\n')
+        values = []
+        for sub_code in subsections:
+            lc_code = sub_code[0]
+            lc_id = {'E': 1, 'G': 2, 'T': 3}[lc_code]
+            values.append(f"  ('{sub_code}', {lc_id})")
+        f.write(',\n'.join(values) + ';\n\n')
+        
+        f.write('INSERT INTO question (code, subsection_id, content) VALUES\n')
+        values = []
         for q in all_questions:
-            question_id = q['id']
-            subsection_id = extract_subsection_id(question_id)
-            question_text = sql_escape(q['question'])
-            fcc_refs = sql_escape(q.get('refs', ''))
-            question_values.append(
-                f"  ('{question_id}', '{subsection_id}', '{question_text}', '{fcc_refs}')"
-            )
-        f.write(',\n'.join(question_values) + ';\n\n')
-        
-        # Insert answers
-        f.write("-- Insert answers\n")
-        f.write("INSERT INTO answers (question_id, answer_text, is_correct, answer_order) VALUES\n")
-        answer_values = []
-        for q in all_questions:
-            question_id = q['id']
-            correct_index = q['correct']
-            for idx, answer_text in enumerate(q['answers']):
-                escaped_answer = sql_escape(answer_text)
-                is_correct = 'TRUE' if idx == correct_index else 'FALSE'
-                answer_values.append(
-                    f"  ('{question_id}', '{escaped_answer}', {is_correct}, {idx})"
-                )
-        f.write(',\n'.join(answer_values) + ';\n')
+            sub_code = q['id'][:3]
+            sub_id = subsections.index(sub_code) + 1
+            content = json.dumps(q).replace("'", "''")
+            values.append(f"  ('{q['id']}', {sub_id}, '{content}')")
+        f.write(',\n'.join(values) + ';\n')
     
-    # Print summary
-    print(f"✓ Generated {output_file}")
-    print(f"  - License classes: {len(license_classes)}")
-    print(f"  - Subsections: {len(subsections)}")
-    print(f"  - Questions: {len(all_questions)}")
-    print(f"  - Answers: {sum(len(q['answers']) for q in all_questions)}")
-
-def main():
-    """Main entry point."""
-    json_dir = Path(__file__).parent
-    output_file = Path(__file__).parent / 'data.sql'
-    
-    json_files = [
-        json_dir / 'technician.json',
-        json_dir / 'general.json',
-        json_dir / 'extra.json'
-    ]
-    
-    # Verify all files exist
-    for json_file in json_files:
-        if not json_file.exists():
-            print(f"Error: {json_file} not found")
-            return 1
-    
-    generate_sql(json_files, output_file)
-    return 0
+    print(f'✓ Generated {schema_file}')
+    print(f'  - License classes: {len(license_classes)}')
+    print(f'  - Subsections: {len(subsections)}')
+    print(f'  - Questions: {len(all_questions)}')
 
 if __name__ == '__main__':
     exit(main())
