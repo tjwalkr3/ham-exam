@@ -4,7 +4,7 @@ import type { Question } from '../../zod-types/questionModel'
 
 interface QuestionCardProps {
   question: Question;
-  onSubmit: () => void;
+  onSubmit: (questionId: string, correct: boolean) => void;
 }
 
 function QuestionCard({ question, onSubmit }: QuestionCardProps) {
@@ -23,7 +23,7 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
       const correct = selectedAnswer === question.correct;
       setIsCorrect(correct);
       setIsSubmitted(true);
-      onSubmit();
+      onSubmit(question.id, correct);
     }
   };
 

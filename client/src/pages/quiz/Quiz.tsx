@@ -4,16 +4,18 @@ import Header from '../../components/header/Header'
 import Carousel from '../../components/carousel/Carousel'
 import QuestionCard from '../../components/question-card/QuestionCard'
 import styles from './Quiz.module.css'
-import { useQuizQuestions } from '../../hooks/quizHooks'
+import { useQuizQuestions, useSubmitAnswer } from '../../hooks/quizHooks'
 
 function Quiz() {
   const auth = useAuth();
   const token = auth.user?.access_token || '';
   const { data: questions, isLoading, error } = useQuizQuestions('T', token);
+  const submitAnswer = useSubmitAnswer(token);
   const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
 
-  const handleQuestionSubmit = (index: number) => {
+  const handleQuestionSubmit = (index: number, questionId: string, correct: boolean) => {
     setSubmittedQuestions(prev => new Set(prev).add(index));
+    submitAnswer.mutate({ questionId, correct });
   };
 
   const isNextEnabled = (index: number) => {
@@ -57,7 +59,7 @@ function Quiz() {
     <QuestionCard 
       key={question.id}
       question={question}
-      onSubmit={() => handleQuestionSubmit(index)}
+      onSubmit={(questionId, correct) => handleQuestionSubmit(index, questionId, correct)}
     />
   ));
 

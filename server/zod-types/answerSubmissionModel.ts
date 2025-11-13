@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const AnswerSubmissionSchema = z.object({
-  questionId: z.number(),
+  questionId: z.string(),
   correct: z.boolean(),
 });
 

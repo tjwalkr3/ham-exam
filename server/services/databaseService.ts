@@ -59,6 +59,11 @@ export async function recordAnswer(
   const userId = await ensureUserExists(username);
   const masteryDelta = submission.correct ? 1 : -1;
 
+  const question = await db.one(
+    'SELECT id FROM question WHERE code = $1',
+    [submission.questionId]
+  );
+
   await db.none(
     `INSERT INTO user_question_mastery (user_id, question_id, mastery, last_asked_time, last_asked_date)
      VALUES ($1, $2, $3, NOW(), CURRENT_DATE)
@@ -67,6 +72,6 @@ export async function recordAnswer(
        mastery = user_question_mastery.mastery + $3,
        last_asked_time = NOW(),
        last_asked_date = CURRENT_DATE`,
-    [userId, submission.questionId, masteryDelta]
+    [userId, question.id, masteryDelta]
   );
 }
