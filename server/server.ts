@@ -13,7 +13,11 @@ if (!connectionString) throw new Error("DATABASE_URL is not set");
 export const db = pgp(connectionString);
 
 const app = express();
-app.use(cors());
+// Configure CORS to allow requests from the frontend
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true,
+}));
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {

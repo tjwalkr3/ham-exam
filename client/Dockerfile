@@ -8,6 +8,8 @@ COPY ./client/ ./
 ENV CI=true
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
+# Set the API URL to use the same domain with /api prefix (handled by Ingress)
+ENV VITE_API_URL=/api
 RUN pnpm run build
 
 # Production stage

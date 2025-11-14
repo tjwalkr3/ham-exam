@@ -1,3 +1,5 @@
+// In production (Kubernetes), use relative path which is handled by Ingress
+// In development, use localhost
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4444';
 
 export async function fetchWrapper<T>(
