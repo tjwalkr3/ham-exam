@@ -101,16 +101,14 @@ Features:
 ### Nov 15
 #### Estimates:
 Rubric items:
-- [ ] 
+- [ ] 10+ pages or views
 - [ ] Tool call: 1+ action(s) require user confirmation to perform
 
 Features:
-- [ ] api can return the list of topics with associated levels of mastery
-- [ ] api can return a list of questions in a given group
-- [ ] api can return an explanation for a question that was answered incorrectly
-- [ ] a tanstack query on the frontend that can call the list of topics endpoint
-- [ ] a tanstack query on the frontend that can call the list of questions endpoint 
-- [ ] a tanstack query on the frontend that can get the explanation for an incorrect answer
+- [ ] Add a view that provides an overview of what you did correctly after a quiz submission
+- [ ] Add a zod object that represents a tool call that can be used to pass a tool call from the client to the server
+- [ ] Add a function and associated tool call that allows the AI to select a subsection for the current quiz to use
+- [ ] Make the tool call set the subsection of the quiz correctly
 
 ### Nov 19
 #### Estimates:
