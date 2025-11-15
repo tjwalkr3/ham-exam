@@ -107,7 +107,7 @@ Rubric items:
 Features:
 - [x] Add a view that provides an overview of what you did correctly after a quiz submission
 - [x] Add a zod object that represents a tool call that can be used to pass a tool call from the client to the server
-- [ ] Add a function and associated tool call that allows the AI to select a subsection for the current quiz to use
+- [ ] Add a function and associated tool call "string" to the modal that allows the AI to select a subsection that can be recommended for the user to start (in the modal)
 - [ ] Make the tool call set the subsection of the quiz correctly
 
 ### Nov 19

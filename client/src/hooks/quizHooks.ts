@@ -46,3 +46,22 @@ export function useSubmitAnswer(token: string) {
       submitAnswer(questionId, correct, token),
   });
 }
+
+async function fetchRecommendedSubsection(licenseClass: string, token: string): Promise<string> {
+  const data = await fetchWrapper<{ subsectionCode: string }>('/api/ai/recommend-subsection', {
+    method: 'POST',
+    body: JSON.stringify({ licenseClass }),
+    token,
+  });
+  return data.subsectionCode;
+}
+
+export function useRecommendSubsection(licenseClass: string, token: string, enabled: boolean) {
+  return useQuery({
+    queryKey: ['recommendSubsection', licenseClass],
+    queryFn: () => fetchRecommendedSubsection(licenseClass, token),
+    enabled: enabled && !!licenseClass && !!token,
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+  });
+}

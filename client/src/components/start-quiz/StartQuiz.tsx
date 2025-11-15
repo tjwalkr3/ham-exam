@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from 'react-oidc-context'
 import { Link } from 'react-router-dom'
 import styles from './StartQuiz.module.css'
 import Modal from '../modal/Modal'
-import { useSubsectionMasteries } from '../../hooks/quizHooks'
+import { getRecommendSubsectionTool } from '../../utils/aiTools'
+import { useRecommendSubsection } from '../../hooks/quizHooks'
 
 function StartQuiz() {
   const auth = useAuth();
   const token = auth.user?.access_token || '';
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: masteries, isLoading } = useSubsectionMasteries('T', token);
+  
+  const { data: recommendedSubsection, isLoading, error } = useRecommendSubsection('T', token, isModalOpen);
 
   const handleStartQuiz = () => {
     setIsModalOpen(true);
@@ -19,7 +21,10 @@ function StartQuiz() {
     setIsModalOpen(false);
   };
 
-  const recommendedSubsection = masteries?.[0];
+  useEffect(() => {
+    const toolString = getRecommendSubsectionTool();
+    console.log('AI Tool Definition:', toolString);
+  }, []);
 
   return (
     <>
@@ -51,30 +56,31 @@ function StartQuiz() {
             <div className={styles.spinner}></div>
             <p>Finding the best subsection for you...</p>
           </div>
+        ) : error ? (
+          <div className={styles.modalContent}>
+            <p className={styles.error}>Failed to get recommendation. Please try again.</p>
+            <button 
+              className={styles.retryButton}
+              onClick={handleCloseModal}
+              type="button"
+            >
+              Close
+            </button>
+          </div>
         ) : recommendedSubsection ? (
           <div className={styles.modalContent}>
             <p className={styles.recommendation}>
-              We recommend studying subsection <strong>{recommendedSubsection.code}</strong>
+              We recommend studying subsection <strong>{recommendedSubsection}</strong>
             </p>
-            <p className={styles.masteryInfo}>
-              Current mastery: {recommendedSubsection.totalMastery} points
-            </p>
-            {recommendedSubsection.lastStudied && (
-              <p className={styles.lastStudied}>
-                Last studied: {new Date(recommendedSubsection.lastStudied).toLocaleDateString()}
-              </p>
-            )}
             <Link 
-              to={`/quiz/${recommendedSubsection.code}`}
+              to={`/quiz/${recommendedSubsection}`}
               className={styles.confirmButton}
               onClick={handleCloseModal}
             >
               Start Quiz
             </Link>
           </div>
-        ) : (
-          <p>No subsections available.</p>
-        )}
+        ) : null}
       </Modal>
     </>
   )
