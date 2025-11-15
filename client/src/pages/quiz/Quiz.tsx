@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
 import Carousel from '../../components/carousel/Carousel'
 import QuestionCard from '../../components/question-card/QuestionCard'
@@ -9,19 +9,33 @@ import { useQuizQuestions, useSubmitAnswer } from '../../hooks/quizHooks'
 
 function Quiz() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const { subsectionCode } = useParams<{ subsectionCode: string }>();
   const token = auth.user?.access_token || '';
   const { data: questions, isLoading, error } = useQuizQuestions(subsectionCode || '', token);
   const submitAnswer = useSubmitAnswer(token);
   const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
+  const [correctCount, setCorrectCount] = useState(0);
 
   const handleQuestionSubmit = (index: number, questionId: string, correct: boolean) => {
     setSubmittedQuestions(prev => new Set(prev).add(index));
     submitAnswer.mutate({ questionId, correct });
+    if (correct) {
+      setCorrectCount(prev => prev + 1);
+    }
   };
 
   const isNextEnabled = (index: number) => {
     return submittedQuestions.has(index);
+  };
+
+  const handleQuizComplete = () => {
+    navigate(`/quiz-results/${subsectionCode}`, {
+      state: {
+        correct: correctCount,
+        total: questions?.length || 0
+      }
+    });
   };
 
   if (isLoading) {
@@ -69,7 +83,11 @@ function Quiz() {
     <div className={styles.container}>
       <Header />
       <main className={styles.main}>
-        <Carousel items={questionCards} onNextEnabled={isNextEnabled} />
+        <Carousel 
+          items={questionCards} 
+          onNextEnabled={isNextEnabled}
+          onComplete={handleQuizComplete}
+        />
       </main>
     </div>
   )

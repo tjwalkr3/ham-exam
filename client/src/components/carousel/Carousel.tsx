@@ -5,20 +5,26 @@ import styles from './Carousel.module.css'
 interface CarouselProps {
   items: ReactNode[];
   onNextEnabled?: (index: number) => boolean;
+  onComplete?: () => void;
 }
 
-function Carousel({ items, onNextEnabled }: CarouselProps) {
+function Carousel({ items, onNextEnabled, onComplete }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
     if (currentIndex < items.length - 1) {
       setCurrentIndex(currentIndex + 1);
+    } else if (currentIndex === items.length - 1 && onComplete) {
+      onComplete();
     }
   };
 
   const isNextDisabled = onNextEnabled 
-    ? !onNextEnabled(currentIndex) || currentIndex === items.length - 1
-    : currentIndex === items.length - 1;
+    ? !onNextEnabled(currentIndex)
+    : false;
+
+  const isLastItem = currentIndex === items.length - 1;
+  const buttonText = isLastItem && onComplete ? 'Finish' : 'Next';
 
   return (
     <div className={styles.carousel}>
@@ -36,7 +42,7 @@ function Carousel({ items, onNextEnabled }: CarouselProps) {
           type="button"
           disabled={isNextDisabled}
         >
-          Next
+          {buttonText}
         </button>
       </div>
     </div>
