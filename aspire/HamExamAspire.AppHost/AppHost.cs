@@ -25,7 +25,7 @@ static string EnsureScratchDir(string root, string name)
 
 var serverPath = ResolvePath("server");
 var clientPath = ResolvePath("client");
-var schemaPath = ResolvePath("config", "schema.sql");
+var schemaPath = ResolvePath("database", "schema.sql");
 var keycloakImportPath = ResolvePath("keycloak", "AppRealm.json");
 var scratchRoot = ResolvePath(".containers");
 Directory.CreateDirectory(scratchRoot);
@@ -43,6 +43,7 @@ const string keycloakRealm = "AppRealm";
 
 var defaultJwkUri = $"http://{keycloakHost}:{keycloakPort}/realms/{keycloakRealm}/protocol/openid-connect/certs";
 var jwkUri = Environment.GetEnvironmentVariable("JWK_URI") ?? defaultJwkUri;
+var keycloakAuthority = $"http://localhost:{keycloakPort}/realms/{keycloakRealm}";
 var databaseUrl = $"postgres://{postgresUser}:{postgresPassword}@{postgresHost}:{postgresPort}/{postgresDatabase}";
 
 var postgres = builder.AddContainer(postgresHost, "postgres", "18-alpine3.22")
@@ -78,6 +79,7 @@ builder.AddContainer("web", "node", "25-alpine3.22")
 	.WithBindMount(clientPath, "/app")
 	.WithBindMount(webNodeModulesPath, "/app/node_modules")
 	.WithEnvironment("NODE_ENV", "development")
+	.WithEnvironment("VITE_KEYCLOAK_AUTHORITY", keycloakAuthority)
 	.WithEntrypoint("sh")
 	.WithArgs("-c", "cd /app && npm install -g pnpm && pnpm install && pnpm run dev -- --host");
 

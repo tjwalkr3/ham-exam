@@ -5,6 +5,7 @@ services:
       - "5173:5173"
     environment:
       - NODE_ENV=development
+      - VITE_KEYCLOAK_AUTHORITY=https://auth-dev.snowse.io/realms/DevRealm
     working_dir: /app
     volumes:
       - ./client:/app
@@ -23,7 +24,7 @@ services:
     environment:
       PORT: "4444"
       DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
-      JWK_URI: ${JWK_URI}
+      JWK_URI: https://auth-dev.snowse.io/realms/DevRealm/protocol/openid-connect/certs
     command: >-
       sh -c "npm install -g pnpm && pnpm i && pnpm exec tsx server.ts"
     depends_on:
@@ -49,4 +50,4 @@ volumes:
 
 configs:
   schema:
-    file: ./config/schema.sql
+    file: ./database/schema.sql
