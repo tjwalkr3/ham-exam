@@ -1,0 +1,169 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ham-exam-keycloak-realm
+  namespace: ham-exam
+data:
+  AppRealm.json: |
+    {
+      "realm": "AppRealm",
+      "enabled": true,
+      "sslRequired": "external",
+      "registrationAllowed": false,
+      "loginWithEmailAllowed": true,
+      "duplicateEmailsAllowed": false,
+      "resetPasswordAllowed": true,
+      "userManagedAccessAllowed": false,
+      "clients": [
+        {
+          "clientId": "ham-exam",
+          "name": "ham-exam",
+          "enabled": true,
+          "protocol": "openid-connect",
+          "publicClient": true,
+          "directAccessGrantsEnabled": true,
+          "serviceAccountsEnabled": false,
+          "standardFlowEnabled": true,
+          "implicitFlowEnabled": false,
+          "frontchannelLogout": false,
+          "fullScopeAllowed": true,
+          "redirectUris": [
+            "https://ham.dragonbytes.org/*",
+            "http://localhost:5173/*"
+          ],
+          "webOrigins": [
+            "https://ham.dragonbytes.org",
+            "http://localhost:5173"
+          ],
+          "attributes": {
+            "post.logout.redirect.uris": "https://ham.dragonbytes.org/*##http://localhost:5173/*"
+          }
+        }
+      ],
+      "users": [
+        {
+          "username": "test-user",
+          "enabled": true,
+          "emailVerified": true,
+          "email": "test-user@example.com",
+          "firstName": "Test",
+          "lastName": "User",
+          "credentials": [
+            {
+              "type": "password",
+              "value": "test123",
+              "temporary": false
+            }
+          ],
+          "realmRoles": [
+            "user"
+          ],
+          "groups": []
+        }
+      ],
+      "roles": {
+        "realm": [
+          {
+            "name": "user",
+            "description": "User role"
+          }
+        ]
+      },
+      "scopeMappings": [],
+      "clientScopeMappings": {},
+      "defaultRoles": [
+        "user"
+      ]
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ham-exam-keycloak-dep
+  namespace: ham-exam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ham-exam-keycloak
+
+  template:
+    metadata:
+      labels:
+        app: ham-exam-keycloak
+    spec:
+      containers:
+      - name: ham-exam-keycloak-container
+        image: keycloak/keycloak:26.4
+        args:
+          - "start-dev"
+          - "--import-realm"
+        env:
+        - name: KC_BOOTSTRAP_ADMIN_USERNAME
+          value: "admin"
+        - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+          value: "password123"
+        - name: KC_HOSTNAME_STRICT
+          value: "false"
+        - name: KC_HOSTNAME_STRICT_HTTPS
+          value: "false"
+        - name: KC_PROXY
+          value: "edge"
+        - name: KC_HTTP_ENABLED
+          value: "true"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: realm-config
+          mountPath: /opt/keycloak/data/import
+          readOnly: true
+      volumes:
+      - name: realm-config
+        configMap:
+          name: ham-exam-keycloak-realm
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ham-exam-keycloak-svc
+  namespace: ham-exam
+spec:
+  selector:
+    app: ham-exam-keycloak
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ham-exam-keycloak-ingress
+  namespace: ham-exam
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ham.dragonbytes.org
+      secretName: ham-exam-tls
+  rules:
+    - host: ham.dragonbytes.org
+      http:
+        paths:
+          - path: /auth(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ham-exam-keycloak-svc
+                port:
+                  number: 8080

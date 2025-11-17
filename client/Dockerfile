@@ -10,6 +10,10 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # Set the API URL to use the same domain with /api prefix (handled by Ingress)
 ENV VITE_API_URL=/api
+
+# Set Keycloak authority to use the same domain with /auth prefix (handled by Ingress)
+ENV VITE_KEYCLOAK_AUTHORITY=https://ham.dragonbytes.org/auth/realms/AppRealm
+
 RUN pnpm run build
 
 # Production stage

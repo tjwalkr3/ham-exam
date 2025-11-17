@@ -3,34 +3,17 @@ using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 
 var builder = DistributedApplication.CreateBuilder(args);
-
 var repoRoot = Path.GetFullPath(Path.Combine(builder.AppHostDirectory!, "..", ".."));
 
-string ResolvePath(params string[] segments)
-{
-	var current = repoRoot;
-	foreach (var segment in segments)
-	{
-		current = Path.Combine(current, segment);
-	}
-	return current;
-}
-
-static string EnsureScratchDir(string root, string name)
-{
-	var path = Path.Combine(root, name);
-	Directory.CreateDirectory(path);
-	return path;
-}
-
-var serverPath = ResolvePath("server");
-var clientPath = ResolvePath("client");
-var schemaPath = ResolvePath("database", "schema.sql");
-var keycloakImportPath = ResolvePath("keycloak", "AppRealm.json");
-var scratchRoot = ResolvePath(".containers");
-Directory.CreateDirectory(scratchRoot);
-var apiNodeModulesPath = EnsureScratchDir(scratchRoot, "api-node_modules");
-var webNodeModulesPath = EnsureScratchDir(scratchRoot, "web-node_modules");
+var serverPath = Path.Combine(repoRoot, "server");
+var clientPath = Path.Combine(repoRoot, "client");
+var schemaPath = Path.Combine(repoRoot, "database", "schema.sql");
+var keycloakImportPath = Path.Combine(repoRoot, "keycloak", "AppRealm.json");
+var scratchRoot = Path.Combine(repoRoot, ".containers");
+var apiNodeModulesPath = Path.Combine(scratchRoot, "api-node_modules");
+var webNodeModulesPath = Path.Combine(scratchRoot, "web-node_modules");
+Directory.CreateDirectory(apiNodeModulesPath);
+Directory.CreateDirectory(webNodeModulesPath);
 
 const string postgresUser = "appuser";
 const string postgresPassword = "apppassword";
