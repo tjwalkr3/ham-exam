@@ -26,6 +26,7 @@ static string EnsureScratchDir(string root, string name)
 var serverPath = ResolvePath("server");
 var clientPath = ResolvePath("client");
 var schemaPath = ResolvePath("config", "schema.sql");
+var keycloakImportPath = ResolvePath("keycloak", "AppRealm.json");
 var scratchRoot = ResolvePath(".containers");
 Directory.CreateDirectory(scratchRoot);
 var apiNodeModulesPath = EnsureScratchDir(scratchRoot, "api-node_modules");
@@ -36,8 +37,12 @@ const string postgresPassword = "apppassword";
 const string postgresDatabase = "appdb";
 const int postgresPort = 5432;
 const string postgresHost = "postgres";
+const string keycloakHost = "keycloak";
+const int keycloakPort = 8080;
+const string keycloakRealm = "AppRealm";
 
-var jwkUri = Environment.GetEnvironmentVariable("JWK_URI") ?? string.Empty;
+var defaultJwkUri = $"http://{keycloakHost}:{keycloakPort}/realms/{keycloakRealm}/protocol/openid-connect/certs";
+var jwkUri = Environment.GetEnvironmentVariable("JWK_URI") ?? defaultJwkUri;
 var databaseUrl = $"postgres://{postgresUser}:{postgresPassword}@{postgresHost}:{postgresPort}/{postgresDatabase}";
 
 var postgres = builder.AddContainer(postgresHost, "postgres", "18-alpine3.22")
@@ -47,6 +52,15 @@ var postgres = builder.AddContainer(postgresHost, "postgres", "18-alpine3.22")
 	.WithBindMount(schemaPath, "/docker-entrypoint-initdb.d/schema.sql")
 	.WithEndpoint(port: postgresPort, targetPort: postgresPort)
 	.WithLifetime(ContainerLifetime.Session);
+
+builder.AddContainer(keycloakHost, "keycloak/keycloak", "26.4")
+	.WithBindMount(keycloakImportPath, "/opt/keycloak/data/import/AppRealm.json")
+	.WithEnvironment("KC_BOOTSTRAP_ADMIN_USERNAME", "admin")
+	.WithEnvironment("KC_BOOTSTRAP_ADMIN_PASSWORD", "password123")
+	.WithEnvironment("KC_HOSTNAME_STRICT", "false")
+	.WithEnvironment("KC_HOSTNAME_STRICT_HTTPS", "false")
+	.WithHttpEndpoint(port: keycloakPort, targetPort: keycloakPort)
+	.WithArgs("start-dev", "--import-realm");
 
 var api = builder.AddContainer("api", "node", "25-alpine3.22")
 	.WithHttpEndpoint(port: 4444, targetPort: 4444)

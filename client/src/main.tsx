@@ -21,7 +21,7 @@ const stripSigninParameters = () => {
 }
 
 const oidcConfig : AuthProviderProps = {
-  authority: "https://auth-dev.snowse.io/realms/DevRealm",
+  authority: import.meta.env.VITE_KEYCLOAK_AUTHORITY || "http://localhost:8080/realms/AppRealm",
   client_id: "ham-exam",
   redirect_uri: window.location.origin,
   post_logout_redirect_uri: window.location.origin,
