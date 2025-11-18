@@ -25,7 +25,7 @@ export async function sendAiMessage(messages: MessageArray, tools?: ToolArray): 
     messages,
     temperature: aiTemperature,
     max_completion_tokens: maxCompletionTokens,
-    ...(tools ? { tools: tools as any } : {}),
+    ...(tools ? { tools: tools as OpenAI.Chat.Completions.ChatCompletionTool[] } : {}),
   });
 
   const assistantMessage = completion.choices[0]?.message;
