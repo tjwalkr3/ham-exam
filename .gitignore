@@ -28,6 +28,7 @@ node_modules/
 dist-server/
 .pnpm-store/
 .containers/
+aichat-toolcalling-demo/
 
 # sensitive
 ham-exam-secret.yml
