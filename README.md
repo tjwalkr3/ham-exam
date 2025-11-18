@@ -114,24 +114,26 @@ Features:
 #### Estimates:
 Rubric items:
 - [ ] client side state stores (e.g. tanstack query or context)
-- [ ] 10+ pages or views
+- [ ] extra credit: use browser storage
+- [x] 10+ pages or views
 - [ ] 1+ action(s) require user confirmation to perform
 - [ ] 1+ action(s) automatically adjust the UI when performed
 
 Features:
-- [ ] a context with useStates in it that can store the section that is being studied and the quiz type (default to technician class)
-- [ ] a custom function and associated tool call on the frontend that can start a new quiz (requires user confirmation before opening the quiz page)
-- [ ] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
+- [ ] create a settings page that allows the user to select the license class
+- [ ] create a function that can retrieve and store the license class in browser storage
+- [ ] a context that can hold the license class that is being studied
+- [ ] a custom function and associated tool call on the frontend that can select a subsection to start a quiz on
+- [ ] frontend can start a new quiz, based on the AI feedback
+- [x] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
 
 ### Nov 22
 #### Estimates:
 Rubric items:
-- [ ] 1+ action(s) can be performed autonomously
-- [ ] 1+ action(s) automatically adjust the UI when performed
+- 
 
 Features:
-- [ ] a custom function and associated tool call on the frontend that allows the ai to autonomously get the next question in the series (stops the loop when the user has reached 10 questions)
-- [ ] a custom function and associated tool call that redirects the user to a report that is generated based on the results of the quiz (explains correct answers for questions tha were answered incorrectly)
+- 
 
 ### Nov 25
 #### Estimates:
@@ -141,7 +143,6 @@ Rubric items:
 
 Features:
 - [ ] an additional resources page to give the user more study materials
-- [ ] A settings page where the user can set the current exam type (technician, general, and extra)
 
 ### Dec 3
 #### Estimates:
