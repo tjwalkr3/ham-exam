@@ -105,12 +105,20 @@ spec:
           value: "admin"
         - name: KC_BOOTSTRAP_ADMIN_PASSWORD
           value: "password123"
+        - name: KC_HOSTNAME
+          value: "ham.dragonbytes.org"
+        - name: KC_HOSTNAME_URL
+          value: "https://ham.dragonbytes.org/auth"
+        - name: KC_HOSTNAME_ADMIN_URL
+          value: "https://ham.dragonbytes.org/auth"
         - name: KC_HOSTNAME_STRICT
-          value: "false"
+          value: "true"
         - name: KC_HOSTNAME_STRICT_HTTPS
-          value: "false"
+          value: "true"
         - name: KC_PROXY
           value: "edge"
+        - name: KC_PROXY_HEADERS
+          value: "xforwarded"
         - name: KC_HTTP_ENABLED
           value: "true"
         - name: KC_HTTP_RELATIVE_PATH
