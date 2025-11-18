@@ -1,0 +1,56 @@
+@token=YOUR_JWT_TOKEN_HERE
+
+### Send a basic AI chat request
+POST http://localhost:4444/api/ai/messages
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful ham radio exam tutor."
+    },
+    {
+      "role": "user",
+      "content": "Give me a study plan for the Technician exam."
+    }
+  ]
+}
+
+### Send a request with tool calls
+POST http://localhost:4444/api/ai/messages
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You can request the question catalog when needed."
+    },
+    {
+      "role": "user",
+      "content": "Find the next question about antenna safety."
+    }
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_subsection_questions",
+        "description": "Look up a list of ham radio exam questions by subsection code.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "subsectionCode": {
+              "type": "string",
+              "description": "Subsection identifier such as T0A."
+            }
+          },
+          "required": [
+            "subsectionCode"
+          ]
+        }
+      }
+    }
+  ]
+}

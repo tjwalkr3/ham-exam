@@ -6,6 +6,9 @@ import { getQuestionsForWeakestSubsection, getSubsectionMasteries, getQuestionsF
 import { jwtMiddleware } from "./middleware/authMiddleware.js";
 import { getEmailFromJWT } from "./services/jwtHeaderService.js";
 import { AnswerSubmissionSchema } from "./zod-types/answerSubmissionModel.js";
+import { MessageArraySchema } from "./zod-types/messageModel.js";
+import { ToolArraySchema } from "./zod-types/toolModel.js";
+import { sendAiMessage } from "./services/aiMessageService.js";
 
 const pgp = pgPromise({});
 const connectionString = process.env.DATABASE_URL;
@@ -79,6 +82,18 @@ app.post("/api/answer", jwtMiddleware, async (req, res, next) => {
     const submission = AnswerSubmissionSchema.parse(req.body);
     await recordAnswer(username, submission);
     res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post("/api/ai/messages", jwtMiddleware, async (req, res, next) => {
+  try {
+    const messages = MessageArraySchema.parse(req.body.messages);
+    const tools = req.body.tools ? ToolArraySchema.parse(req.body.tools) : undefined;
+
+    const aiResponse = await sendAiMessage(messages, tools);
+    res.json(aiResponse);
   } catch (err) {
     next(err);
   }

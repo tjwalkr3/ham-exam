@@ -1,5 +1,5 @@
 import express from "express";
-import { validateJWT, isAdmin } from "../services/jwtHeaderService.js";
+import { validateJWT } from "../services/jwtHeaderService.js";
 
 export const jwtMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
@@ -12,12 +12,4 @@ export const jwtMiddleware = async (req: express.Request, res: express.Response,
     console.error("JWT validation error:", err);
     res.status(401).json({ error: "Unauthorized" });
   }
-};
-
-export const adminMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  if (!isAdmin(req.headers.authorization)) {
-    res.status(403).json({ error: "Forbidden" });
-    return;
-  }
-  next();
 };

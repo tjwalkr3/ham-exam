@@ -29,6 +29,10 @@ var jwkUri = Environment.GetEnvironmentVariable("JWK_URI") ?? defaultJwkUri;
 var keycloakAuthority = $"http://localhost:{keycloakPort}/realms/{keycloakRealm}";
 var databaseUrl = $"postgres://{postgresUser}:{postgresPassword}@{postgresHost}:{postgresPort}/{postgresDatabase}";
 
+// AI Server configuration
+var aiServerUrl = Environment.GetEnvironmentVariable("AI_SERVER");
+var aiToken = Environment.GetEnvironmentVariable("AI_TOKEN");
+
 var postgres = builder.AddContainer(postgresHost, "postgres", "18-alpine3.22")
 	.WithEnvironment("POSTGRES_USER", postgresUser)
 	.WithEnvironment("POSTGRES_PASSWORD", postgresPassword)
@@ -54,6 +58,8 @@ var api = builder.AddContainer("api", "node", "25-alpine3.22")
 	.WithEnvironment("NODE_ENV", "development")
 	.WithEnvironment("DATABASE_URL", databaseUrl)
 	.WithEnvironment("JWK_URI", jwkUri)
+	.WithEnvironment("AI_SERVER", aiServerUrl)
+	.WithEnvironment("AI_TOKEN", aiToken)
 	.WithEntrypoint("sh")
 	.WithArgs("-c", "cd /app && npm install -g pnpm && pnpm install && pnpm exec tsx server.ts");
 

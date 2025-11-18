@@ -16,3 +16,4 @@ export const ToolSchema = z.object({
 export const ToolArraySchema = z.array(ToolSchema);
 
 export type Tool = z.infer<typeof ToolSchema>;
+export type ToolArray = z.infer<typeof ToolArraySchema>;

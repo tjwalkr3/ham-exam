@@ -31,19 +31,3 @@ export function getEmailFromJWT(authHeader: string | undefined): string {
 
   return "";
 }
-
-export function isAdmin(authHeader: string | undefined): boolean {
-  try {
-    if (!authHeader?.startsWith("Bearer ")) return false;
-    const token = authHeader.substring(7);
-    const payload = decodeJwt(token) as {
-      resource_access?: Record<string, { roles?: string[] }>;
-    };
-
-    const clientId = "thomas-chat";
-    return payload.resource_access?.[clientId]?.roles?.includes("admin") ?? false;
-  } catch (err) {
-    console.error("Error decoding JWT:", err);
-    return false;
-  }
-}
