@@ -113,6 +113,8 @@ spec:
           value: "edge"
         - name: KC_HTTP_ENABLED
           value: "true"
+        - name: KC_HTTP_RELATIVE_PATH
+          value: "/auth"
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -158,7 +160,7 @@ spec:
     - host: ham.dragonbytes.org
       http:
         paths:
-          - path: /
+          - path: /auth
             pathType: Prefix
             backend:
               service:
