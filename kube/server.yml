@@ -27,7 +27,7 @@ spec:
         - name: AI_TOKEN
           value: $AI_TOKEN
         - name: JWK_URI
-          value: "http://ham-exam-keycloak-svc:8080/realms/AppRealm/protocol/openid-connect/certs"
+          value: "http://ham-exam-keycloak-svc:8080/auth/realms/AppRealm/protocol/openid-connect/certs"
         ports:
         - containerPort: 4444
 
