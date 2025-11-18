@@ -27,6 +27,7 @@ node_modules/
 
 dist-server/
 .pnpm-store/
+.containers/
 
 # sensitive
 ham-exam-secret.yml
