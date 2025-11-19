@@ -113,41 +113,49 @@ Features:
 ### Nov 19
 #### Estimates:
 Rubric items:
-- [ ] client side state stores (e.g. tanstack query or context)
-- [ ] extra credit: use browser storage
+- [x] client side state stores (e.g. tanstack query or context)
+- [x] extra credit: use browser storage
 - [x] 10+ pages or views
-- [ ] 1+ action(s) require user confirmation to perform
-- [ ] 1+ action(s) automatically adjust the UI when performed
+- [x] Tool call: 1+ action(s) require user confirmation to perform
 
 Features:
-- [ ] create a settings page that allows the user to select the license class
-- [ ] create a function that can retrieve and store the license class in browser storage
-- [ ] a context that can hold the license class that is being studied
-- [ ] a custom function and associated tool call on the frontend that can select a subsection to start a quiz on
-- [ ] frontend can start a new quiz, based on the AI feedback
+- [x] create a settings page that allows the user to select the license class
+- [x] create a function that can retrieve and store the license class in browser storage
+- [x] a context that can hold the license class that is being studied
+- [x] a custom function and associated tool call on the frontend that can select a subsection to start a quiz on
+- [x] frontend can start a new quiz, based on the AI feedback
 - [x] a popup modal that allows the user to confirm the LLM's section choice before linking them to the quiz
 
 ### Nov 22
 #### Estimates:
 Rubric items:
-- 
+- [ ] Technology: Error handling (both on api requests and render errors)
+- [ ] Technology: Toasts / global notifications or alerts
+- [ ] 10+ pages/views via a router (Add 1 page)
+- [ ] 1+ actions that can be performed autonomously
 
 Features:
-- 
+- [ ] Add an error boundary in main.tsx. 
+- [ ] Make a toast appear on every API and Rendering error in the frontend
+- [ ] an additional resources page to give the user more study materials
+- [ ] change the mastery values to be out of 3 or 5 and non-negative per question
+- [ ] Add a tool call that automatically generates a progress report for each license class on the home screen when the user loads it (it will loop for each license class, calling the mastery endpoint and summing it up for each license class)
 
 ### Nov 25
 #### Estimates:
 Rubric items:
-- [ ] 10+ pages/views via a router
-- [ ] 
+- [ ] 1+ action(s) can be performed autonomously
+- [ ] streaming generation in the UI
 
 Features:
-- [ ] an additional resources page to give the user more study materials
+- [ ] add a function in the frontend that can be called with a string argument to display an explanation of why an answer is incorrect
+- [ ] add a tool call for this method that takes in the question object and the (incorrect) answer that the user gave
+- [ ] modify the question component to display an explanation of why the user's answer is incorrect
 
 ### Dec 3
 #### Estimates:
 Rubric items:
-- [ ] 
+- [ ] 1+ action(s) automatically adjust the UI when performed
 - [ ] 
 
 Features:
