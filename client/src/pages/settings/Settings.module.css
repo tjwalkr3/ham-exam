@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+.container {
+  @apply min-h-screen bg-slate-50;
+}
+
+.main {
+  @apply max-w-2xl mx-auto px-4 py-10;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-sm border border-slate-200 p-8 flex flex-col gap-8;
+}
+
+.section {
+  @apply flex flex-col gap-4;
+}
+
+.heading {
+  @apply text-2xl font-semibold text-slate-900;
+}
+
+.label {
+  @apply text-sm font-semibold uppercase tracking-wide text-slate-600;
+}
+
+.select {
+  @apply border border-slate-300 rounded-md px-3 py-2 text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-slate-400;
+}
+
+.helperText {
+  @apply text-sm text-slate-500;
+}

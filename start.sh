@@ -17,4 +17,6 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 cd "$SCRIPT_DIR"
+
+docker compose down -v
 exec docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up --build

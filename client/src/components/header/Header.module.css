@@ -7,3 +7,15 @@
 .logo {
   @apply text-lg font-semibold;
 }
+
+.left {
+  @apply flex items-center gap-6;
+}
+
+.nav {
+  @apply flex items-center gap-4;
+}
+
+.navLink {
+  @apply text-sm tracking-wide uppercase text-slate-200 hover:text-white transition-colors no-underline;
+}

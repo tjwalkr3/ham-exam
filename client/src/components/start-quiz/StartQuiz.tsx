@@ -5,6 +5,8 @@ import styles from './StartQuiz.module.css'
 import Modal from '../modal/Modal'
 import { useSubsectionMasteries } from '../../hooks/quizHooks'
 import { useAiSubsectionRecommendation } from '../../hooks/aiHooks'
+import { useSettings } from '../../context/settingsContext'
+import type { SubsectionMastery } from '../../zod-types/subsectionMasteryModel'
 
 type AiSelection = {
   subsectionCode: string
@@ -12,20 +14,21 @@ type AiSelection = {
   confidence?: number
 }
 
-const DEFAULT_LICENSE_CLASS = 'T'
-
 function StartQuiz() {
   const auth = useAuth();
   const token = auth.user?.access_token || '';
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { licenseClass, topicSelectionMode } = useSettings();
   const [aiSelection, setAiSelection] = useState<AiSelection | null>(null);
-  const { data: masteries, isLoading: isMasteriesLoading } = useSubsectionMasteries(DEFAULT_LICENSE_CLASS, token);
+  const { data: masteries, isLoading: isMasteriesLoading } = useSubsectionMasteries(licenseClass, token);
+
+  const isAiMode = topicSelectionMode === 'ai';
 
   const aiRecommendation = useAiSubsectionRecommendation({
-    licenseClass: DEFAULT_LICENSE_CLASS,
+    licenseClass,
     masteries,
     token,
-    enabled: isModalOpen,
+    enabled: isModalOpen && isAiMode,
   });
 
   const handleStartQuiz = () => {
@@ -37,12 +40,15 @@ function StartQuiz() {
   };
 
   useEffect(() => {
-    if (!isModalOpen) {
+    if (!isModalOpen || !isAiMode) {
       setAiSelection(null);
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, isAiMode]);
 
   useEffect(() => {
+    if (!isAiMode) {
+      return;
+    }
     const toolCalls = aiRecommendation.data?.toolCalls;
     if (!toolCalls) {
       return;
@@ -66,15 +72,38 @@ function StartQuiz() {
         console.error('Failed to parse tool call arguments', error);
       }
     });
-  }, [aiRecommendation.data]);
+  }, [aiRecommendation.data, isAiMode]);
 
-  const fallbackSubsection = masteries?.[0];
+  const selectLowestMastery = (list?: SubsectionMastery[]) => {
+    if (!list || list.length === 0) {
+      return undefined;
+    }
+    return list.reduce<SubsectionMastery>((lowest, current) =>
+      current.totalMastery < lowest.totalMastery ? current : lowest
+    , list[0]);
+  };
+
+  const fallbackSubsection = selectLowestMastery(masteries);
   const aiRecommended = aiSelection
     ? masteries?.find((subsection) => subsection.code === aiSelection.subsectionCode)
     : undefined;
-  const recommendedSubsection = aiRecommended ?? fallbackSubsection;
   const aiLoading = aiRecommendation.isPending || aiRecommendation.isFetching;
   const aiError = aiRecommendation.error instanceof Error ? aiRecommendation.error.message : null;
+  const shouldShowAiLoading = isAiMode && aiLoading && !aiSelection && !aiError;
+
+  let recommendedSubsection: SubsectionMastery | undefined;
+  let isAiRecommendation = false;
+
+  if (isAiMode) {
+    if (aiRecommended) {
+      recommendedSubsection = aiRecommended;
+      isAiRecommendation = true;
+    } else if (aiError) {
+      recommendedSubsection = fallbackSubsection;
+    }
+  } else {
+    recommendedSubsection = fallbackSubsection;
+  }
 
   return (
     <>
@@ -106,18 +135,20 @@ function StartQuiz() {
             <div className={styles.spinner}></div>
             <p>Finding the best subsection for you...</p>
           </div>
+        ) : shouldShowAiLoading ? (
+          <div className={styles.loading}>
+            <div className={styles.spinner}></div>
+            <p>Checking with the AI tutor...</p>
+          </div>
         ) : recommendedSubsection ? (
           <div className={styles.modalContent}>
-            {aiLoading && (
-              <p className={styles.aiStatus}>Checking with the AI tutor...</p>
-            )}
-            {aiError && (
+            {isAiMode && aiError && (
               <p className={styles.aiError}>AI recommendation unavailable. Using fallback.</p>
             )}
             <p className={styles.recommendation}>
               We recommend studying subsection <strong>{recommendedSubsection.code}</strong>
             </p>
-            {aiSelection?.reason && (
+            {isAiRecommendation && aiSelection?.reason && (
               <p className={styles.aiReason}>{aiSelection.reason}</p>
             )}
             <p className={styles.masteryInfo}>
