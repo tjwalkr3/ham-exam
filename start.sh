@@ -3,20 +3,23 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname "$0")" && pwd)"
-ASPIRE_DIR="$SCRIPT_DIR/aspire"
-APP_HOST_CSproj="$ASPIRE_DIR/HamExamAspire.AppHost/HamExamAspire.AppHost.csproj"
+COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
+ENV_FILE="$SCRIPT_DIR/.env"
 
-# Load .env file if it exists
-if [ -f "$SCRIPT_DIR/.env" ]; then
-	set -a
-	source "$SCRIPT_DIR/.env"
-	set +a
-fi
-
-if [ ! -f "$APP_HOST_CSproj" ]; then
-	echo "Aspire AppHost project not found at $APP_HOST_CSproj" >&2
+if [ ! -f "$COMPOSE_FILE" ]; then
+	echo "docker-compose.yml not found at $COMPOSE_FILE" >&2
 	exit 1
 fi
 
-cd "$ASPIRE_DIR"
-exec dotnet watch --project "$APP_HOST_CSproj" run
+if [ ! -f "$ENV_FILE" ]; then
+	echo ".env not found at $ENV_FILE" >&2
+	exit 1
+fi
+
+if [ -z "${AI_TOKEN:-}" ]; then
+	echo "Please export AI_TOKEN in your shell before running start.sh" >&2
+	exit 1
+fi
+
+cd "$SCRIPT_DIR"
+exec docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up --build
