@@ -16,10 +16,5 @@ if [ ! -f "$ENV_FILE" ]; then
 	exit 1
 fi
 
-if [ -z "${AI_TOKEN:-}" ]; then
-	echo "Please export AI_TOKEN in your shell before running start.sh" >&2
-	exit 1
-fi
-
 cd "$SCRIPT_DIR"
 exec docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up --build
