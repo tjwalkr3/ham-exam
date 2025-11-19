@@ -1,7 +1,19 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 import Header from '../../components/header/Header'
 import styles from './Home.module.css'
 
 function Home() {
+  const auth = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!auth.isLoading && auth.isAuthenticated) {
+      navigate('/user', { replace: true })
+    }
+  }, [auth.isLoading, auth.isAuthenticated, navigate])
+
   return (
     <div className={styles.container}>
       <Header />

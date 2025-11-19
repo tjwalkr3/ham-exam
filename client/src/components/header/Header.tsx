@@ -6,9 +6,9 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           Ham Exam
-        </div>
+        </Link>
         <nav className={styles.nav}>
           <Link to="/settings" className={styles.navLink}>
             Settings
