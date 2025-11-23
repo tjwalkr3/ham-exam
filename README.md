@@ -129,17 +129,17 @@ Features:
 ### Nov 22
 #### Estimates:
 Rubric items:
-- [ ] Technology: Error handling (both on api requests and render errors)
-- [ ] Technology: Toasts / global notifications or alerts
-- [ ] 10+ pages/views via a router (Add 1 page)
-- [ ] 1+ actions that can be performed autonomously
+- [x] Technology: Error handling (both on api requests and render errors)
+- [x] Technology: Toasts / global notifications or alerts
+- [x] 10+ pages/views via a router (Add 1 page)
+- [x] 1+ actions that can be performed autonomously
 
 Features:
-- [ ] Add an error boundary in main.tsx. 
-- [ ] Make a toast appear on every API and Rendering error in the frontend
-- [ ] an additional resources page to give the user more study materials
+- [x] Add an error boundary in main.tsx. 
+- [x] Make a toast appear on every API and Rendering error in the frontend
+- [x] an additional resources page to give the user more study materials
 - [x] change the mastery values to be between 0 and 5 for each question
-- [ ] Add a tool call that automatically generates a progress report for each license class on the home screen when the user loads it (it will loop for each license class, calling the mastery endpoint and summing it up for each license class)
+- [x] Add a tool call that automatically generates a progress report for each license class on the home screen when the user loads it (it will loop for each license class, calling the mastery endpoint and summing it up for each license class)
 
 ### Nov 25
 #### Estimates:
@@ -151,6 +151,7 @@ Features:
 - [ ] add a function in the frontend that can be called with a string argument to display an explanation of why an answer is incorrect
 - [ ] add a tool call for this method that takes in the question object and the (incorrect) answer that the user gave
 - [ ] modify the question component to display an explanation of why the user's answer is incorrect
+- [ ] implement streaming generation from the backend to the frontend and use it on one of the pages that gets an AI response
 
 ### Dec 3
 #### Estimates:
