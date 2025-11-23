@@ -62,6 +62,17 @@ function StartQuizModal({
     fallbackSubsection,
   })
 
+  const masterySummary = useMemo(() => {
+    if (!recommendedSubsection) {
+      return null
+    }
+    if (!recommendedSubsection.totalMastery) {
+      return `${recommendedSubsection.achievedMastery} points`
+    }
+    const percentage = Math.round((recommendedSubsection.achievedMastery / recommendedSubsection.totalMastery) * 100)
+    return `${recommendedSubsection.achievedMastery}/${recommendedSubsection.totalMastery} points (${percentage}%)`
+  }, [recommendedSubsection])
+
   return (
     <Modal
       isOpen={isOpen}
@@ -90,7 +101,7 @@ function StartQuizModal({
             <p className={styles.aiReason}>{aiSelection.reason}</p>
           )}
           <p className={styles.masteryInfo}>
-            Current mastery: {recommendedSubsection.totalMastery} points
+            Current mastery: {masterySummary}
           </p>
           {recommendedSubsection.lastStudied && (
             <p className={styles.lastStudied}>

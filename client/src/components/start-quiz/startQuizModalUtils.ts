@@ -7,12 +7,21 @@ export type AiSelection = {
   confidence?: number
 }
 
+const PERFECT_RATIO = 1
+
+function getMasteryRatio(subsection: SubsectionMastery) {
+  if (!subsection.totalMastery) {
+    return PERFECT_RATIO
+  }
+  return subsection.achievedMastery / subsection.totalMastery
+}
+
 export function selectLowestMastery(list?: SubsectionMastery[]) {
   if (!list || list.length === 0) {
     return undefined
   }
   return list.reduce<SubsectionMastery>((lowest, current) =>
-    current.totalMastery < lowest.totalMastery ? current : lowest
+    getMasteryRatio(current) < getMasteryRatio(lowest) ? current : lowest
   , list[0])
 }
 

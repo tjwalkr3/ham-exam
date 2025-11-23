@@ -5,7 +5,7 @@ const baseToolCalls: ToolArray = [
     type: "function",
     function: {
       name: "select_subsection_for_quiz",
-      description: "Selects the best subsection for the user to study next based on mastery data.",
+      description: "Selects the best subsection for the user to study next, prioritizing the lowest achieved/total mastery ratio.",
       parameters: {
         type: "object",
         properties: {
