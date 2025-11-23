@@ -3,6 +3,13 @@ import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
 import { AnswerSubmission } from '../zod-types/answerSubmissionModel.js';
 import { SubsectionMastery, SubsectionMasteriesSchema } from '../zod-types/subsectionMasteryModel.js';
 
+const MIN_MASTERY = 0;
+const MAX_MASTERY = 5;
+
+export function clampMasteryExpression(expression: string): string {
+  return `LEAST(${MAX_MASTERY}, GREATEST(${MIN_MASTERY}, ${expression}))`;
+}
+
 async function ensureUserExists(username: string): Promise<number> {
   const result = await db.oneOrNone(
     'SELECT id FROM "user" WHERE username = $1',
@@ -117,10 +124,16 @@ export async function recordAnswer(
 
   await db.none(
     `INSERT INTO user_question_mastery (user_id, question_id, mastery, last_asked_time, last_asked_date)
-     VALUES ($1, $2, $3, NOW(), CURRENT_DATE)
+     VALUES (
+       $1,
+       $2,
+       ${clampMasteryExpression('$3')},
+       NOW(),
+       CURRENT_DATE
+     )
      ON CONFLICT (user_id, question_id)
      DO UPDATE SET
-       mastery = user_question_mastery.mastery + $3,
+       mastery = ${clampMasteryExpression('user_question_mastery.mastery + $3')},
        last_asked_time = NOW(),
        last_asked_date = CURRENT_DATE`,
     [userId, question.id, masteryDelta]
