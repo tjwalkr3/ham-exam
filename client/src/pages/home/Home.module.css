@@ -20,16 +20,8 @@
   @apply text-xl text-slate-600;
 }
 
-.content {
-  @apply space-y-8;
-}
-
-.section {
-  @apply bg-white rounded-lg shadow-sm p-6 border border-slate-200;
-}
-
-.sectionTitle {
-  @apply text-2xl font-semibold text-slate-800 mb-3;
+.grid {
+  @apply grid gap-6 md:grid-cols-2;
 }
 
 .paragraph {
