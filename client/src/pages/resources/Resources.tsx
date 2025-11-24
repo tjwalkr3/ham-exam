@@ -28,14 +28,6 @@ const resources = [
     cta: "Shop the manual",
   },
   {
-    title: "Gordon West Study Materials",
-    description:
-      "Audio lessons and books that mix explanations with on-air stories, making them a popular commercial option for radio students.",
-    details: "Multi-format • Purchase",
-    link: "http://www.w5yi.org/catalog.php?sort=4",
-    cta: "Browse Gordon West",
-  },
-  {
     title: "David Casler Video Guides",
     description:
       "YouTube playlists that cover all three U.S. license pools with classroom-style walkthroughs and visual demos.",

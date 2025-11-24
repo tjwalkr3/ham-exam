@@ -139,7 +139,7 @@ Features:
 - [x] Make a toast appear on every API and Rendering error in the frontend
 - [x] an additional resources page to give the user more study materials
 - [x] change the mastery values to be between 0 and 5 for each question
-- [x] Add a tool call that automatically generates a progress report for each license class on the home screen when the user loads it (it will loop for each license class, calling the mastery endpoint and summing it up for each license class)
+- [x] Add a tool call that automatically generates a progress report for each license class on its own page when the user loads it (it will loop for each license class, calling the mastery endpoint and summing it up for each license class, along with the outlook of the user passing that test)
 
 ### Nov 25
 #### Estimates:
