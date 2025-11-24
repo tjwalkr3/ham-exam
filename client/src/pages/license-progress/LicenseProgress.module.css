@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.container {
+  @apply min-h-screen bg-slate-50;
+}
+
+.main {
+  @apply max-w-5xl mx-auto px-4 py-12 space-y-8;
+}
+
+.title {
+  @apply text-3xl font-semibold text-slate-900;
+}
+
+.subtitle {
+  @apply text-slate-600 mt-2;
+}
+
+.grid {
+  @apply grid gap-6 md:grid-cols-2 xl:grid-cols-3;
+}

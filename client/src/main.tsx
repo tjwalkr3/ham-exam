@@ -5,6 +5,7 @@ import Home from './pages/home/Home.tsx'
 import User from './pages/user/User.tsx'
 import Quiz from './pages/quiz/Quiz.tsx'
 import QuizResults from './pages/quiz-results/QuizResults.tsx'
+import LicenseProgress from './pages/license-progress/LicenseProgress.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -66,6 +67,7 @@ createRoot(document.getElementById('root')!).render(
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/user" element={<User />} />
+                <Route path="/license-progress" element={<LicenseProgress />} />
                 <Route path="/quiz/:subsectionCode" element={<Quiz />} />
                 <Route path="/quiz-results/:subsectionCode" element={<QuizResults />} />
                 <Route path="/settings" element={<Settings />} />
