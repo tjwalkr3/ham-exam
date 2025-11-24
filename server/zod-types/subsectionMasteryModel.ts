@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const SubsectionMasterySchema = z.object({
   code: z.string(),
+  achievedMastery: z.number(),
   totalMastery: z.number(),
   lastStudied: z.number().nullable(),
 });

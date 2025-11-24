@@ -3,6 +3,13 @@ import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
 import { AnswerSubmission } from '../zod-types/answerSubmissionModel.js';
 import { SubsectionMastery, SubsectionMasteriesSchema } from '../zod-types/subsectionMasteryModel.js';
 
+const MIN_MASTERY = 0;
+const MAX_MASTERY = 5;
+
+export function clampMasteryExpression(expression: string): string {
+  return `LEAST(${MAX_MASTERY}, GREATEST(${MIN_MASTERY}, ${expression}))`;
+}
+
 async function ensureUserExists(username: string): Promise<number> {
   const result = await db.oneOrNone(
     'SELECT id FROM "user" WHERE username = $1',
@@ -31,14 +38,19 @@ export async function getQuestionsForWeakestSubsection(
     WITH subsection_mastery AS (
       SELECT 
         s.id,
-        COALESCE(SUM(uqm.mastery), 0) as total_mastery
+        COALESCE(SUM(uqm.mastery), 0) AS achieved_mastery,
+        COUNT(q.id) * ${MAX_MASTERY} AS total_mastery,
+        COALESCE(
+          COALESCE(SUM(uqm.mastery), 0)::float / NULLIF(COUNT(q.id) * ${MAX_MASTERY}, 0),
+          1
+        ) AS mastery_ratio
       FROM subsection s
       JOIN license_class lc ON s.license_class_id = lc.id
       JOIN question q ON q.subsection_id = s.id
       LEFT JOIN user_question_mastery uqm ON uqm.question_id = q.id AND uqm.user_id = $1
       WHERE lc.code = $2
       GROUP BY s.id
-      ORDER BY total_mastery, s.id
+      ORDER BY mastery_ratio, s.id
       LIMIT 1
     )
     SELECT q.content
@@ -62,7 +74,8 @@ export async function getSubsectionMasteries(
   const query = `
     SELECT 
       s.code,
-      COALESCE(SUM(uqm.mastery), 0) as total_mastery,
+      COALESCE(SUM(uqm.mastery), 0) AS achieved_mastery,
+      COUNT(q.id) * ${MAX_MASTERY} AS total_mastery,
       EXTRACT(EPOCH FROM MAX(uqm.last_asked_date + uqm.last_asked_time)::timestamp) * 1000 as last_studied
     FROM subsection s
     JOIN license_class lc ON s.license_class_id = lc.id
@@ -70,12 +83,18 @@ export async function getSubsectionMasteries(
     LEFT JOIN user_question_mastery uqm ON uqm.question_id = q.id AND uqm.user_id = $1
     WHERE lc.code = $2
     GROUP BY s.code
-    ORDER BY total_mastery, s.code
+    ORDER BY 
+      COALESCE(
+        COALESCE(SUM(uqm.mastery), 0)::float / NULLIF(COUNT(q.id) * ${MAX_MASTERY}, 0),
+        1
+      ),
+      s.code
   `;
 
   const rows = await db.manyOrNone(query, [userId, licenseClass]);
   const masteries = rows.map(row => ({
     code: row.code,
+    achievedMastery: parseFloat(row.achieved_mastery),
     totalMastery: parseFloat(row.total_mastery),
     lastStudied: row.last_studied ? parseFloat(row.last_studied) : null,
   }));
@@ -117,10 +136,16 @@ export async function recordAnswer(
 
   await db.none(
     `INSERT INTO user_question_mastery (user_id, question_id, mastery, last_asked_time, last_asked_date)
-     VALUES ($1, $2, $3, NOW(), CURRENT_DATE)
+     VALUES (
+       $1,
+       $2,
+       ${clampMasteryExpression('$3')},
+       NOW(),
+       CURRENT_DATE
+     )
      ON CONFLICT (user_id, question_id)
      DO UPDATE SET
-       mastery = user_question_mastery.mastery + $3,
+       mastery = ${clampMasteryExpression('user_question_mastery.mastery + $3')},
        last_asked_time = NOW(),
        last_asked_date = CURRENT_DATE`,
     [userId, question.id, masteryDelta]
