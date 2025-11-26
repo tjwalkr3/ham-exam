@@ -145,11 +145,10 @@ Features:
 #### Estimates:
 Rubric items:
 - [ ] 1+ action(s) can be performed autonomously
-- [ ] streaming generation in the UI
 
 Features:
 - [ ] add a function in the frontend that can be called with a string argument to display an explanation of why an answer is incorrect
-- [ ] add a tool call for this method that takes in the question object and the (incorrect) answer that the user gave
+- [ ] add a tool call for this method that includes the question object in its prompt
 - [ ] modify the question component to display an explanation of why the user's answer is incorrect
 - [ ] implement streaming generation from the backend to the frontend and use it on one of the pages that gets an AI response
 
@@ -157,10 +156,10 @@ Features:
 #### Estimates:
 Rubric items:
 - [ ] 1+ action(s) automatically adjust the UI when performed
-- [ ] 
+- [ ] streaming generation in the UI
 
 Features:
-- [ ] 
+- [ ] implement streaming generation from the backend to the frontend and use it on one of the pages that gets an AI response
 - [ ]
 
 ### Dec 6
