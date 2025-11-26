@@ -71,3 +71,11 @@
 .reference {
   @apply text-sm font-normal text-slate-600;
 }
+
+.explanationContainer {
+  @apply mt-4 p-4 bg-slate-50 rounded-lg border border-slate-200 flex justify-center;
+}
+
+.explanationText {
+  @apply text-slate-700 text-left w-full;
+}

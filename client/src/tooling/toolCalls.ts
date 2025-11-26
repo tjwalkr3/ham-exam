@@ -66,6 +66,23 @@ const baseToolCalls: ToolArray = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "explain_question_answer",
+      description: "Explains why the user's answer to a multiple-choice question was incorrect.",
+      parameters: {
+        type: "object",
+        properties: {
+          explanation: {
+            type: "string",
+            description: "A plain text explanation (1-2 sentences) of why the user's answer is wrong.",
+          },
+        },
+        required: ["explanation"],
+      },
+    },
+  },
 ];
 
 export function getToolCalls() {
