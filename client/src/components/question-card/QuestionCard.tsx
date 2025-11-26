@@ -101,7 +101,6 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
       {isSubmitted && (
         <div className={`${styles.feedback} ${isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect}`}>
           {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
-          <span className={styles.reference}>Reference: {question.refs}</span>
         </div>
       )}
 
