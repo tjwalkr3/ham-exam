@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.card {
+  @apply bg-white rounded-lg shadow-sm border border-slate-200 p-6;
+}
+
+.title {
+  @apply text-2xl font-semibold text-slate-800 mb-3;
+}
+
+.body {
+  @apply text-slate-700 leading-relaxed;
+}

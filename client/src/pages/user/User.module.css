@@ -3,3 +3,15 @@
 .container {
   @apply min-h-screen bg-slate-50;
 }
+
+.cards {
+  @apply max-w-4xl mx-auto px-4 py-12 flex flex-col gap-6;
+}
+
+.cardText {
+  @apply text-base text-slate-700 mb-4;
+}
+
+.cardButton {
+  @apply inline-flex items-center justify-center rounded-md bg-slate-800 px-6 py-2 font-semibold text-white shadow-sm transition-colors hover:bg-slate-700;
+}

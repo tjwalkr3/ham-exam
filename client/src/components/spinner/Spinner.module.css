@@ -1,0 +1,18 @@
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-top-color: #1e293b;
+  border-radius: 9999px;
+  animation: spinner 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -18,6 +18,8 @@
     "openai": "^6.7.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-error-boundary": "^6.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-oidc-context": "^3.3.0",
     "react-router-dom": "^7.9.5",
     "tailwindcss": "^4.1.16",

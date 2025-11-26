@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import Modal from '../modal/Modal'
 import styles from './StartQuizModal.module.css'
 import { useSubsectionMasteries } from '../../hooks/quizHooks'
-import { useAiSubsectionRecommendation } from '../../hooks/aiHooks'
+import { useAiMessages } from '../../hooks/aiHooks'
 import type { LicenseClass, TopicSelectionMode } from '../../context/settingsContext'
-import { determineRecommendation, parseAiSelection, selectLowestMastery, type AiSelection } from './startQuizModalUtils'
+import { buildSubsectionMessages, determineRecommendation, parseAiSelection, selectLowestMastery, type AiSelection } from './startQuizModalUtils'
 
 interface StartQuizModalProps {
   isOpen: boolean
@@ -27,12 +27,20 @@ function StartQuizModal({
 
   const isAiMode = topicSelectionMode === 'ai'
   const fallbackSubsection = useMemo(() => selectLowestMastery(masteries), [masteries])
+  const subsectionMessages = useMemo(
+    () => buildSubsectionMessages(licenseClass, masteries),
+    [licenseClass, masteries]
+  )
 
-  const aiRecommendation = useAiSubsectionRecommendation({
-    licenseClass,
-    masteries,
+  const aiRecommendation = useAiMessages({
     token,
-    enabled: isOpen && isAiMode,
+    messages: subsectionMessages ?? undefined,
+    enabled: Boolean(isOpen && isAiMode && subsectionMessages),
+    queryKey: [
+      'subsection',
+      licenseClass,
+      masteries ? JSON.stringify(masteries) : null,
+    ],
   })
 
   useEffect(() => {
@@ -62,6 +70,17 @@ function StartQuizModal({
     fallbackSubsection,
   })
 
+  const masterySummary = useMemo(() => {
+    if (!recommendedSubsection) {
+      return null
+    }
+    if (!recommendedSubsection.totalMastery) {
+      return `${recommendedSubsection.achievedMastery} points`
+    }
+    const percentage = Math.round((recommendedSubsection.achievedMastery / recommendedSubsection.totalMastery) * 100)
+    return `${recommendedSubsection.achievedMastery}/${recommendedSubsection.totalMastery} points (${percentage}%)`
+  }, [recommendedSubsection])
+
   return (
     <Modal
       isOpen={isOpen}
@@ -90,7 +109,7 @@ function StartQuizModal({
             <p className={styles.aiReason}>{aiSelection.reason}</p>
           )}
           <p className={styles.masteryInfo}>
-            Current mastery: {recommendedSubsection.totalMastery} points
+            Current mastery: {masterySummary}
           </p>
           {recommendedSubsection.lastStudied && (
             <p className={styles.lastStudied}>

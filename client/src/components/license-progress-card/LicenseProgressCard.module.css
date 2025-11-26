@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+.content {
+  @apply space-y-4;
+}
+
+.message {
+  @apply text-slate-500;
+}
+
+.error {
+  @apply text-red-600 font-medium;
+}
+
+.row {
+  @apply flex items-center justify-between;
+}
+
+.points {
+  @apply text-slate-600 font-medium;
+}
+
+.percent {
+  @apply text-2xl font-semibold text-slate-800;
+}
+
+.progressTrack {
+  @apply w-full h-3 bg-slate-100 rounded-full overflow-hidden;
+}
+
+.progressFill {
+  @apply h-full bg-indigo-500 transition-all duration-500 ease-out;
+}
+
+.outlookLabel {
+  @apply text-sm font-semibold uppercase tracking-wide text-slate-500;
+}
+
+.reason {
+  @apply text-sm text-slate-600;
+}

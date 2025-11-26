@@ -10,6 +10,9 @@ function Header() {
           Ham Exam
         </Link>
         <nav className={styles.nav}>
+          <Link to="/resources" className={styles.navLink}>
+            Resources
+          </Link>
           <Link to="/settings" className={styles.navLink}>
             Settings
           </Link>
