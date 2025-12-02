@@ -1,32 +1,20 @@
-# Question component tool-calling
+## Sending Images with my question correctness explanations
 
-## Background information
-* This is an app that is a ham radio study help. 
-* Currently, I have the ability to start a quiz. 
-* There is a carousel that holds a collection of components (one for each question). 
-* Whenever the user gets a question right, it lights up in green, when wrong, it light up red. 
-* The questions are fetched by the backend from a database, and mastery points associated with a question are tracked in the database (changed after each question is answered). 
+**Background:**
+* In my app, if I get a question wrong, it currently sends a request to the AI, giving it the choice to respond to the user with a tool call that is used to display an explanation of why the question was answered incorrectly. 
+* In the Ham radio license exam, several questions have associated images. These images are diagrams that contain information that is necessary for the user to be able to answer the question. 
+* Currently, my app has no way of displaying these images.
 
-## Steps
-**Step 1:** 
-* add a function in the frontend that can be called with a string argument to display an explanation under a question
+**Steps:**
+* In a python script, create a list of tuples that match question names to image URLs. This should be done for all three license classes, which have the following corresponding pages (each page contains all of the questions and images necessary to map images for an entire license class).
+    * https://hamexam.org/view_pool/18-Technician
+    * https://hamexam.org/view_pool/19-General
+    * https://hamexam.org/view_pool/20-Extra
+* In the same python script, create a new folder at the root of the repo called figures and download all of the images into this folder. 
+* In the same Python script, create a new column called figure in the question table of the schema.sql file (it should be the last column in this table). This column will contain the file name of the image that goes with that question (if the question has one). 
+* In the same Python script, add the file name (retrieved from the url in the list of tuples from step 1) to all of the questions in the question table that have figures associated with them. 
+* After this, modify the zod object in the frontend and backend that represents a question so that it has a figure field (a string). 
+* Make sure that the folder of images is copied into the nginx container for the frontend. 
+* Now make it so that the component that represents a question can get this image and display it right above the question text. This should take minimal code. 
 
-**Step 2:**
-* add a tool call for the newly created method in step 1
-  * this tool call should include the question that was asked, along with all of the answer choices
-  * it should also include the answer that was chosen by the user
-  * every time a user answers a question, a request is sent to the AI
-  * the AI should be given the choice of whether or not it should call the function from step 1
-  * the system prompt should tell it only to call the function if the user answered incorrectly, otherwise, do nothing at all
-  * the explanation of why the user is wrong should be in plain text (not markdown), and it should only be 1-2 sentences. 
-  * Only modify code in the tool calls file and the Component that represents a question. 
-
-**Step 3:**
-* there should be a small spinner that appears while the AI is deciding what to do
-* It should go away once the AI decides what to do (whether it does nothing, or offers an explanation of why the user is wrong)
-* If it makes more sense (from a clean-code standpoint, you may extract a spinner component, because spinners are already being used in the app in multiple places). 
-
-## Rules
-1. Do not implement more than the functionality I've outlined in this document. 
-2. Do not create unnecessary markdown documentation or comments. 
-3. Keep the code you're writing simple, sleek, and easy to understand (including the styles). 
+**Rules:**

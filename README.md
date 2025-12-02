@@ -156,7 +156,7 @@ Features:
 Rubric items:
 - [ ] 1+ action(s) automatically adjust the UI when performed
 - [ ] 1+ action(s) require user confirmation to perform
-- [ ] streaming generation in the UI
+- [ ] working with images
 - [ ] 10+ pages
 - [ ] LLM decisions and actions are persisted and can be inspected by the users
 
@@ -166,8 +166,9 @@ Features:
 - [ ] an endpoint in the server that lets the user retrieve all their tool calls
 - [ ] a function in the backend that logs all tool calls that come from the AI before they are returned to the user
 - [ ] a page that displays a vertical list of tool calls for a specific user
-- [ ] streaming generation from the AI server to the backend to the frontend
-- [ ] a page in the app that uses the streaming generation to stream text from the AI
+- [ ] a column in the database that contains image names
+- [ ] the ability to display images on questions that contain images
+- [ ] a way to send images to the AI in base64, so the AI has that context when creating an explanation for the reason why a question was answered incorrectly
 
 ### Dec 6
 #### Estimates:
