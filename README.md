@@ -144,24 +144,30 @@ Features:
 ### Nov 25
 #### Estimates:
 Rubric items:
-- [ ] 1+ action(s) can be performed autonomously
-- [ ] streaming generation in the UI
+- [x] 1+ action(s) can be performed autonomously
 
 Features:
-- [ ] add a function in the frontend that can be called with a string argument to display an explanation of why an answer is incorrect
-- [ ] add a tool call for this method that takes in the question object and the (incorrect) answer that the user gave
-- [ ] modify the question component to display an explanation of why the user's answer is incorrect
-- [ ] implement streaming generation from the backend to the frontend and use it on one of the pages that gets an AI response
+- [x] add a function in the frontend that can be called with a string argument to display an explanation of why an answer is incorrect
+- [x] add a tool call for this method that includes the question object in its prompt
+- [x] modify the question component to display an explanation of why the user's answer is incorrect
 
 ### Dec 3
 #### Estimates:
 Rubric items:
 - [ ] 1+ action(s) automatically adjust the UI when performed
-- [ ] 
+- [ ] 1+ action(s) require user confirmation to perform
+- [ ] streaming generation in the UI
+- [ ] 10+ pages
+- [ ] LLM decisions and actions are persisted and can be inspected by the users
 
 Features:
-- [ ] 
-- [ ]
+- [ ] a user confirmation step for the tool call that chooses which quiz will be run
+- [ ] a table to the database that stores tool calls made for a specific user
+- [ ] an endpoint in the server that lets the user retrieve all their tool calls
+- [ ] a function in the backend that logs all tool calls that come from the AI before they are returned to the user
+- [ ] a page that displays a vertical list of tool calls for a specific user
+- [ ] streaming generation from the AI server to the backend to the frontend
+- [ ] a page in the app that uses the streaming generation to stream text from the AI
 
 ### Dec 6
 #### Estimates:

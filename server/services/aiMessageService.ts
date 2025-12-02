@@ -52,10 +52,6 @@ export async function sendAiMessage(messages: MessageArray, tools?: ToolArray): 
 
   const responseText = normalizeContent(assistantMessage);
 
-  if (!responseText && !toolCalls) {
-    throw new Error("AI service returned neither content nor tool calls");
-  }
-
   return {
     response: responseText,
     toolCalls,
