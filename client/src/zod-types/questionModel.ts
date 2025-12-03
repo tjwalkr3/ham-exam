@@ -6,6 +6,7 @@ export const QuestionSchema = z.object({
   refs: z.string(),
   question: z.string(),
   answers: z.array(z.string()).length(4),
+  figure: z.string().nullish(),
 });
 export const QuestionsSchema = z.array(QuestionSchema);
 

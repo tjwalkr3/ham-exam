@@ -32,6 +32,15 @@ function Question({ questions }: QuestionProps) {
 
   return (
     <div className={styles.card}>
+      {currentQuestion.figure && (
+        <div className={styles.figureContainer}>
+          <img 
+            src={`/figures/${currentQuestion.figure}`} 
+            alt="Question Figure" 
+            className={styles.figure}
+          />
+        </div>
+      )}
       <h2 className={styles.question}>{currentQuestion.question}</h2>
       
       <div className={styles.answers}>

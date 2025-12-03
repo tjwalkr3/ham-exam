@@ -28,43 +28,6 @@ async function ensureUserExists(username: string): Promise<number> {
   return newUser.id;
 }
 
-export async function getQuestionsForWeakestSubsection(
-  licenseClass: string,
-  username: string
-): Promise<Question[]> {
-  const userId = await ensureUserExists(username);
-
-  const query = `
-    WITH subsection_mastery AS (
-      SELECT 
-        s.id,
-        COALESCE(SUM(uqm.mastery), 0) AS achieved_mastery,
-        COUNT(q.id) * ${MAX_MASTERY} AS total_mastery,
-        COALESCE(
-          COALESCE(SUM(uqm.mastery), 0)::float / NULLIF(COUNT(q.id) * ${MAX_MASTERY}, 0),
-          1
-        ) AS mastery_ratio
-      FROM subsection s
-      JOIN license_class lc ON s.license_class_id = lc.id
-      JOIN question q ON q.subsection_id = s.id
-      LEFT JOIN user_question_mastery uqm ON uqm.question_id = q.id AND uqm.user_id = $1
-      WHERE lc.code = $2
-      GROUP BY s.id
-      ORDER BY mastery_ratio, s.id
-      LIMIT 1
-    )
-    SELECT q.content
-    FROM question q
-    JOIN subsection_mastery sm ON q.subsection_id = sm.id
-    ORDER BY q.code
-  `;
-
-  const rows = await db.manyOrNone(query, [userId, licenseClass]);
-  const questions = rows.map(row => row.content);
-  
-  return QuestionsSchema.parse(questions);
-}
-
 export async function getSubsectionMasteries(
   licenseClass: string,
   username: string
@@ -109,7 +72,7 @@ export async function getQuestionsForSubsection(
   await ensureUserExists(username);
 
   const query = `
-    SELECT q.content
+    SELECT q.content, q.figure
     FROM question q
     JOIN subsection s ON q.subsection_id = s.id
     WHERE s.code = $1
@@ -117,7 +80,10 @@ export async function getQuestionsForSubsection(
   `;
 
   const rows = await db.manyOrNone(query, [subsectionCode]);
-  const questions = rows.map(row => row.content);
+  const questions = rows.map(row => ({
+    ...row.content,
+    figure: row.figure
+  }));
   
   return QuestionsSchema.parse(questions);
 }
@@ -136,18 +102,18 @@ export async function recordAnswer(
 
   await db.none(
     `INSERT INTO user_question_mastery (user_id, question_id, mastery, last_asked_time, last_asked_date)
-     VALUES (
-       $1,
-       $2,
-       ${clampMasteryExpression('$3')},
-       NOW(),
-       CURRENT_DATE
-     )
-     ON CONFLICT (user_id, question_id)
-     DO UPDATE SET
-       mastery = ${clampMasteryExpression('user_question_mastery.mastery + $3')},
-       last_asked_time = NOW(),
-       last_asked_date = CURRENT_DATE`,
+      VALUES (
+        $1,
+        $2,
+        ${clampMasteryExpression('$3')},
+        NOW(),
+        CURRENT_DATE
+      )
+      ON CONFLICT (user_id, question_id)
+      DO UPDATE SET
+        mastery = ${clampMasteryExpression('user_question_mastery.mastery + $3')},
+        last_asked_time = NOW(),
+        last_asked_date = CURRENT_DATE`,
     [userId, question.id, masteryDelta]
   );
 }

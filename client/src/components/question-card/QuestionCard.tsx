@@ -68,6 +68,15 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
 
   return (
     <div className={styles.card}>
+      {question.figure && (
+        <div className={styles.figureContainer}>
+          <img 
+            src={`/figures/${question.figure}`} 
+            alt="Question Figure" 
+            className={styles.figure}
+          />
+        </div>
+      )}
       <h2 className={styles.question}>{question.question}</h2>
       
       <div className={styles.answers}>

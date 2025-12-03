@@ -16,5 +16,8 @@
 * After this, modify the zod object in the frontend and backend that represents a question so that it has a figure field (a string). 
 * Make sure that the folder of images is copied into the nginx container for the frontend. 
 * Now make it so that the component that represents a question can get this image and display it right above the question text. This should take minimal code. 
+* Stop here and await further instructions about how to send the image to the LLM. 
 
 **Rules:**
+* Do not write any unnecessary markdown files or unnecessary comments. 
+* Try to keep the code files short, around 100 lines (this is not a hard limit, just a reminder to be brief, not verbose). 
