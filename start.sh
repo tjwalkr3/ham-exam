@@ -20,3 +20,5 @@ cd "$SCRIPT_DIR"
 
 docker compose down -v
 exec docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up --build
+
+# To view image capabilities, go to http://localhost:5173/quiz/T6C

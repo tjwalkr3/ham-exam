@@ -10,7 +10,7 @@ if (!aiServerUrl) throw new Error("AI_SERVER_URL is not set");
 const aiToken = process.env.AI_TOKEN;
 if (!aiToken) throw new Error("AI_TOKEN is not set");
 
-const aiModel = process.env.AI_MODEL ?? "gpt-oss-120b";
+const aiModel = process.env.AI_MODEL ?? "gemma3-27b";
 const aiTemperature = Number(process.env.AI_TEMPERATURE ?? "0.7");
 const maxCompletionTokens = Number(process.env.AI_MAX_TOKENS ?? "800");
 
@@ -22,7 +22,7 @@ const openai = new OpenAI({
 export async function sendAiMessage(messages: MessageArray, tools?: ToolArray): Promise<ChatResponse> {
   const completion = await openai.chat.completions.create({
     model: aiModel,
-    messages,
+    messages: messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
     temperature: aiTemperature,
     max_completion_tokens: maxCompletionTokens,
     ...(tools ? { tools: tools as OpenAI.Chat.Completions.ChatCompletionTool[] } : {}),
