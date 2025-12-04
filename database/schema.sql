@@ -39,6 +39,15 @@ CREATE INDEX idx_question_subsection ON question(subsection_id);
 CREATE INDEX idx_uqm_user ON user_question_mastery(user_id);
 CREATE INDEX idx_uqm_question ON user_question_mastery(question_id);
 
+CREATE TABLE tool_calls (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+  timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  toolcall_description TEXT NOT NULL
+);
+
+CREATE INDEX idx_tool_calls_user ON tool_calls(user_id);
+
 INSERT INTO "user" (username) VALUES ('testuser');
 
 INSERT INTO license_class (code, name, description) VALUES

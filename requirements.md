@@ -1,23 +1,23 @@
 ## Sending Images with my question correctness explanations
 
 **Background:**
-* In my app, if I get a question wrong, it currently sends a request to the AI, giving it the choice to respond to the user with a tool call that is used to display an explanation of why the question was answered incorrectly. 
-* In the Ham radio license exam, several questions have associated images. These images are diagrams that contain information that is necessary for the user to be able to answer the question. 
-* Currently, my app has no way of displaying these images.
+* In my app, the frontend can send tools backend. The backend takes these tools and gives them to the ai server. The AI server can then make a tool call, send it back to the frontend, and an actual function on the frontend can be called to vary the UI in some way. 
+* I want a way for the tool calls for a specific user to be logged in a table in the database, and I want the user to be able to access them on a page in my website. 
 
 **Steps:**
-* In a python script, create a list of tuples that match question names to image URLs. This should be done for all three license classes, which have the following corresponding pages (each page contains all of the questions and images necessary to map images for an entire license class).
-    * https://hamexam.org/view_pool/18-Technician
-    * https://hamexam.org/view_pool/19-General
-    * https://hamexam.org/view_pool/20-Extra
-* In the same python script, create a new folder at the root of the repo called figures and download all of the images into this folder. 
-* In the same Python script, create a new column called figure in the question table of the schema.sql file (it should be the last column in this table). This column will contain the file name of the image that goes with that question (if the question has one). 
-* In the same Python script, add the file name (retrieved from the url in the list of tuples from step 1) to all of the questions in the question table that have figures associated with them. 
-* After this, modify the zod object in the frontend and backend that represents a question so that it has a figure field (a string). 
-* Make sure that the folder of images is copied into the nginx container for the frontend. 
-* Now make it so that the component that represents a question can get this image and display it right above the question text. This should take minimal code. 
-* Stop here and await further instructions about how to send the image to the LLM. 
+1. Create a table in the database that is directly attached to the user table. It will have 3 columns: user_id, timestamp, and toolcall_description. 
+2. I want you to create a service called toolCallService in the services folder of the server. This service will contain two functions: one that adds tool call entries to the database, and another that returns all of the tool call entries in the database for a specific user. 
+    * The function that stores tool calls takes in the object that contains the tool call that came from the AI. It creates a string that says what function was called and what the argument to that function was. This is the summary of the tool call. It gets the current timestamp. It makes an entry in the database for the current user with this message summary and timestamp. 
+    * The function that returns all of the tool calls just makes a simple query to the database and returns all of the tool calls for that user. 
+3. Make it so that the function that stores tool calls is called whenever the AI returns a tool call, so that every tool call that the AI makes is logged. 
+4. Make a zod object that represents the tool call log on the backend and the frontend. 
+5. Make an endpoint that calls the function that gets all of the tool calls. 
+4. Make a query on the frontend that can call the endpoint in the backend that returns all of the tool calls for a user. 
+4. Make a page in its own folder on the frontend called AIToolCallLogs.tsx, along with its own css module called AiToolCallLogs.module.css. Make it so that this page displays the tool calls for a user. When I navigate to this page, it should fetch all of the tool calls. 
+    * Each tool call should be displayed in its own little card horizontally on desktop. When the page shrinks, it should rearrange the info in the tool call to put some of it above because the screen is narrower. These should be compact becasuse there will be many. 
 
 **Rules:**
 * Do not write any unnecessary markdown files or unnecessary comments. 
 * Try to keep the code files short, around 100 lines (this is not a hard limit, just a reminder to be brief, not verbose). 
+* DO these things with the minimal amount of code possible. I want this code to be simple and maintainable. 
+* Use only tailwind css in the modules. Add classes like elsewhere in the app, but only add a minimal number of them to make the page look good and follow the design of the rest of the app. 

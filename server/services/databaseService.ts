@@ -1,4 +1,4 @@
-import { db } from '../server.js';
+import { db } from '../db.js';
 import { Question, QuestionsSchema } from '../zod-types/questionModel.js';
 import { AnswerSubmission } from '../zod-types/answerSubmissionModel.js';
 import { SubsectionMastery, SubsectionMasteriesSchema } from '../zod-types/subsectionMasteryModel.js';
@@ -10,7 +10,7 @@ export function clampMasteryExpression(expression: string): string {
   return `LEAST(${MAX_MASTERY}, GREATEST(${MIN_MASTERY}, ${expression}))`;
 }
 
-async function ensureUserExists(username: string): Promise<number> {
+export async function ensureUserExists(username: string): Promise<number> {
   const result = await db.oneOrNone(
     'SELECT id FROM "user" WHERE username = $1',
     [username]

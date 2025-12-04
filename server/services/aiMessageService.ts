@@ -3,6 +3,7 @@ import type { MessageArray } from "../zod-types/messageModel.js";
 import type { ToolArray } from "../zod-types/toolModel.js";
 import type { ChatResponse } from "../zod-types/chatResponseModel.js";
 import type { ToolCall } from "../zod-types/toolCallModel.js";
+import { logToolCall } from "./toolCallService.js";
 
 const aiServerUrl = process.env.AI_SERVER_URL ?? process.env.AI_SERVER;
 if (!aiServerUrl) throw new Error("AI_SERVER_URL is not set");
@@ -19,7 +20,7 @@ const openai = new OpenAI({
   baseURL: aiServerUrl,
 });
 
-export async function sendAiMessage(messages: MessageArray, tools?: ToolArray): Promise<ChatResponse> {
+export async function sendAiMessage(username: string, messages: MessageArray, tools?: ToolArray): Promise<ChatResponse> {
   const completion = await openai.chat.completions.create({
     model: aiModel,
     messages: messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
@@ -49,6 +50,12 @@ export async function sendAiMessage(messages: MessageArray, tools?: ToolArray): 
         };
       })
     : undefined;
+
+  if (toolCalls) {
+    for (const toolCall of toolCalls) {
+      await logToolCall(username, toolCall);
+    }
+  }
 
   const responseText = normalizeContent(assistantMessage);
 

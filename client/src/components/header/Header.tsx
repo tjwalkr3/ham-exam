@@ -46,6 +46,13 @@ function Header() {
         >
           Settings
         </Link>
+        <Link
+          to="/ai-tool-calls"
+          className={styles.navLink}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          AI Tool Calls
+        </Link>
       </nav>
     </header>
   )

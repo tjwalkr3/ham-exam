@@ -12,6 +12,7 @@ import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@ta
 import { SettingsProvider } from './context/SettingsProvider.tsx'
 import Settings from './pages/settings/Settings.tsx'
 import Resources from './pages/resources/Resources.tsx'
+import AIToolCallLogs from './pages/ai-tool-call-logs/AIToolCallLogs.tsx'
 import { ErrorBoundary } from 'react-error-boundary'
 import AppToaster from './components/app-toaster/AppToaster.tsx'
 import { handleQueryError } from './utils/queryErrorHandler.ts'
@@ -72,6 +73,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/quiz-results/:subsectionCode" element={<QuizResults />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/resources" element={<Resources />} />
+                <Route path="/ai-tool-calls" element={<AIToolCallLogs />} />
               </Routes>
               <AppToaster />
             </BrowserRouter>

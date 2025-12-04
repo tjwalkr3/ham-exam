@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import pgPromise from "pg-promise";
 import { getSubsectionMasteries, getQuestionsForSubsection, recordAnswer } from "./services/databaseService.js";
 import { jwtMiddleware } from "./middleware/authMiddleware.js";
 import { getEmailFromJWT } from "./services/jwtHeaderService.js";
@@ -9,11 +8,8 @@ import { AnswerSubmissionSchema } from "./zod-types/answerSubmissionModel.js";
 import { MessageArraySchema } from "./zod-types/messageModel.js";
 import { ToolArraySchema } from "./zod-types/toolModel.js";
 import { sendAiMessage } from "./services/aiMessageService.js";
-
-const pgp = pgPromise({});
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) throw new Error("DATABASE_URL is not set");
-export const db = pgp(connectionString);
+import { getToolCalls } from "./services/toolCallService.js";
+import { db } from "./db.js";
 
 const app = express();
 // Configure CORS to allow requests from the frontend
@@ -74,11 +70,30 @@ app.post("/api/answer", jwtMiddleware, async (req, res, next) => {
 
 app.post("/api/ai/messages", jwtMiddleware, async (req, res, next) => {
   try {
+    const username = getEmailFromJWT(req.headers.authorization);
+    if (!username) {
+      res.status(401).json({ error: "Invalid token" });
+      return;
+    }
     const messages = MessageArraySchema.parse(req.body.messages);
     const tools = req.body.tools ? ToolArraySchema.parse(req.body.tools) : undefined;
 
-    const aiResponse = await sendAiMessage(messages, tools);
+    const aiResponse = await sendAiMessage(username, messages, tools);
     res.json(aiResponse);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get("/api/tool-calls", jwtMiddleware, async (req, res, next) => {
+  try {
+    const username = getEmailFromJWT(req.headers.authorization);
+    if (!username) {
+      res.status(401).json({ error: "Invalid token" });
+      return;
+    }
+    const toolCalls = await getToolCalls(username);
+    res.json(toolCalls);
   } catch (err) {
     next(err);
   }
