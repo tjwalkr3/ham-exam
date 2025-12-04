@@ -45,7 +45,7 @@ export function buildOutlookMessages(licenseClass: LicenseClass, summary: Master
   return [
     {
       role: 'system',
-      content: `You are an AI coach assessing ham radio exam readiness. Always respond with the set_license_outlook tool call. Choose exactly one outlook from: ${outlookList}. Match the outlook to this palette: ${outlookPalette}. Base your recommendation on whether the learner can reach the 74% passing threshold and consider 80%+ as strong performance. Keep rationale to one sentence.`,
+      content: `You are an AI coach assessing ham radio exam readiness. Always respond with the set_license_outlook tool call. Choose exactly one outlook from: ${outlookList}. Match the outlook to this palette: ${outlookPalette}. Base your recommendation strictly on the provided earnedMastery and totalMastery values. Do not hallucinate mastery levels. Keep rationale to one sentence.`,
     },
     {
       role: 'user',
@@ -54,6 +54,7 @@ export function buildOutlookMessages(licenseClass: LicenseClass, summary: Master
         licenseName,
         earnedMastery: summary.earned,
         totalMastery: summary.total,
+        currentPercentage: `${summary.percentage}%`,
         passingThreshold: PASS_THRESHOLD,
         strongThreshold: STRONG_THRESHOLD,
         context: 'Assess likelihood of passing the upcoming exam with current mastery levels.',

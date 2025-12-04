@@ -28,7 +28,7 @@ export function buildSubsectionMessages(licenseClass: string, masteries?: Subsec
   return [
     {
       role: 'system',
-      content: 'You are an AI tutor who selects the best ham radio subsection for the next quiz. Always call the select_subsection_for_quiz tool with your final decision and only choose subsections present in the provided mastery data.',
+      content: 'You are an AI tutor who selects the best ham radio subsection for the next quiz. Always call the select_subsection_for_quiz tool with your final decision and only choose subsections present in the provided mastery data. When providing a reason, accurately cite the achieved vs total mastery points and the calculated percentage. Do not hallucinate numbers.',
     },
     {
       role: 'user',

@@ -12,7 +12,7 @@ const aiToken = process.env.AI_TOKEN;
 if (!aiToken) throw new Error("AI_TOKEN is not set");
 
 const aiModel = process.env.AI_MODEL ?? "gemma3-27b";
-const aiTemperature = Number(process.env.AI_TEMPERATURE ?? "0.7");
+const aiTemperature = Number(process.env.AI_TEMPERATURE ?? "0.1");
 const maxCompletionTokens = Number(process.env.AI_MAX_TOKENS ?? "800");
 
 const openai = new OpenAI({
