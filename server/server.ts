@@ -9,7 +9,6 @@ import { MessageArraySchema } from "./zod-types/messageModel.js";
 import { ToolArraySchema } from "./zod-types/toolModel.js";
 import { sendAiMessage } from "./services/aiMessageService.js";
 import { getToolCalls } from "./services/toolCallService.js";
-import { db } from "./db.js";
 
 const app = express();
 // Configure CORS to allow requests from the frontend

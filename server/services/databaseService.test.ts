@@ -6,7 +6,7 @@ const mockDb = vi.hoisted(() => ({
   none: vi.fn(),
 }));
 
-vi.mock('../server.js', () => ({
+vi.mock('../db.js', () => ({
   db: mockDb,
 }));
 
