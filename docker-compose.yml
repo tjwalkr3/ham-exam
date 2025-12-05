@@ -25,7 +25,7 @@ services:
       KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_STRICT_HTTPS: "false"
     volumes:
-      - ./keycloak/AppRealm.json:/opt/keycloak/data/import/AppRealm.json:ro
+      - ./AppRealm.json:/opt/keycloak/data/import/AppRealm.json:ro
 
   api:
     image: node:25-alpine3.22
