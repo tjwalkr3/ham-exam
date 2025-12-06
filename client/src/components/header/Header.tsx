@@ -33,6 +33,13 @@ function Header() {
       {/* Side Menu */}
       <nav className={`${styles.sideMenu} ${isMenuOpen ? styles.open : ''}`}>
         <Link
+          to="/subsections"
+          className={styles.navLink}
+          onClick={() => setIsMenuOpen(false)}
+        >
+          Subsections
+        </Link>
+        <Link
           to="/resources"
           className={styles.navLink}
           onClick={() => setIsMenuOpen(false)}
