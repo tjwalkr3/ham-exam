@@ -3,7 +3,7 @@ import { useAuth } from 'react-oidc-context'
 import styles from './QuestionCard.module.css'
 import type { Question } from '../../zod-types/questionModel'
 import { Spinner } from '../spinner/Spinner'
-import { getAiExplanation } from './questionCardUtils'
+import { useAiExplanation } from '../../hooks/aiHooks'
 
 interface QuestionCardProps {
   question: Question;
@@ -16,7 +16,8 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [explanation, setExplanation] = useState<string | null>(null);
-  const [isLoadingExplanation, setIsLoadingExplanation] = useState(false);
+  
+  const { mutateAsync: explainQuestion, isPending: isLoadingExplanation } = useAiExplanation(auth.user?.access_token || '');
 
   const handleAnswerSelect = (index: number) => {
     if (!isSubmitted) {
@@ -33,16 +34,13 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
 
       const token = auth.user?.access_token;
       if (token) {
-        setIsLoadingExplanation(true);
         try {
-          const explanation = await getAiExplanation(token, question, selectedAnswer);
+          const explanation = await explainQuestion({ question, selectedAnswerIndex: selectedAnswer });
           if (explanation) {
             setExplanation(explanation);
           }
         } catch (error) {
           console.error("Failed to get AI explanation", error);
-        } finally {
-          setIsLoadingExplanation(false);
         }
       }
     }
