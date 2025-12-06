@@ -35,12 +35,8 @@ function StartQuizModal({
   const aiRecommendation = useAiMessages({
     token,
     messages: subsectionMessages ?? undefined,
-    enabled: Boolean(isOpen && isAiMode && subsectionMessages),
-    queryKey: [
-      'subsection',
-      licenseClass,
-      masteries ? JSON.stringify(masteries) : null,
-    ],
+    enabled: false,
+    queryKey: ['subsection', licenseClass, masteries ? JSON.stringify(masteries) : null],
   })
 
   useEffect(() => {
@@ -49,19 +45,21 @@ function StartQuizModal({
     }
   }, [isOpen, isAiMode])
 
-  useEffect(() => {
-    if (!isAiMode) {
-      return
-    }
-    const selection = parseAiSelection(aiRecommendation.data?.toolCalls)
+  const handleAiChoose = async () => {
+    const result = await aiRecommendation.refetch()
+    const selection = parseAiSelection(result.data?.toolCalls)
     if (selection) {
-      setAiSelection(selection)
+      const confirmed = window.confirm(
+        `The AI wants to run the function "select_subsection_for_quiz" to select subsection ${selection.subsectionCode}. Do you want to proceed?`
+      )
+      if (confirmed) {
+        setAiSelection(selection)
+      }
     }
-  }, [aiRecommendation.data, isAiMode])
+  }
 
-  const aiLoading = aiRecommendation.isPending || aiRecommendation.isFetching
   const aiError = aiRecommendation.error instanceof Error ? aiRecommendation.error.message : null
-  const shouldShowAiLoading = isAiMode && aiLoading && !aiSelection && !aiError
+  const shouldShowAiLoading = isAiMode && aiRecommendation.isFetching
 
   const { recommendedSubsection, isAiRecommendation } = determineRecommendation({
     isAiMode,
@@ -70,63 +68,63 @@ function StartQuizModal({
     fallbackSubsection,
   })
 
-  const masterySummary = useMemo(() => {
-    if (!recommendedSubsection) {
-      return null
-    }
-    if (!recommendedSubsection.totalMastery) {
-      return `${recommendedSubsection.achievedMastery} points`
-    }
-    const percentage = Math.round((recommendedSubsection.achievedMastery / recommendedSubsection.totalMastery) * 100)
-    return `${recommendedSubsection.achievedMastery}/${recommendedSubsection.totalMastery} points (${percentage}%)`
-  }, [recommendedSubsection])
+  const renderLoading = (message: string) => (
+    <div className={styles.loading}>
+      <div className={styles.spinner}></div>
+      <p className="text-slate-600">{message}</p>
+    </div>
+  )
+
+  const renderAiPrompt = () => (
+    <div className={styles.modalContent}>
+      {aiError && <p className={styles.aiError}>AI Error: {aiError}</p>}
+      <p className={styles.promptText}>Use a large language model to choose which subsection you'll study.</p>
+      <button onClick={handleAiChoose} className={styles.confirmButton}>
+        Choose Subsection With AI
+      </button>
+    </div>
+  )
+
+  const renderRecommendation = () => {
+    if (!recommendedSubsection) return <p>No subsections available.</p>
+
+    const { achievedMastery, totalMastery, code, lastStudied } = recommendedSubsection
+    const percentage = totalMastery ? Math.round((achievedMastery / totalMastery) * 100) : 0
+    const masteryText = totalMastery 
+      ? `${achievedMastery}/${totalMastery} points (${percentage}%)`
+      : `${achievedMastery} points`
+
+    return (
+      <div className={styles.modalContent}>
+        <p className={styles.recommendation}>
+          We recommend studying subsection <strong>{code}</strong>
+        </p>
+        {isAiRecommendation && aiSelection?.reason && (
+          <p className={styles.aiReason}>{aiSelection.reason}</p>
+        )}
+        <p className={lastStudied ? styles.masteryInfo : styles.masteryInfoLast}>Current mastery: {masteryText}</p>
+        {lastStudied && (
+          <p className={styles.lastStudied}>
+            Last studied: {new Date(lastStudied).toLocaleDateString()}
+          </p>
+        )}
+        <Link
+          to={`/quiz/${code}`}
+          className={styles.confirmButton}
+          onClick={onClose}
+        >
+          Start Quiz
+        </Link>
+      </div>
+    )
+  }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Start Quiz"
-    >
-      {isMasteriesLoading ? (
-        <div className={styles.loading}>
-          <div className={styles.spinner}></div>
-          <p>Finding the best subsection for you...</p>
-        </div>
-      ) : shouldShowAiLoading ? (
-        <div className={styles.loading}>
-          <div className={styles.spinner}></div>
-          <p>Checking with the AI tutor...</p>
-        </div>
-      ) : recommendedSubsection ? (
-        <div className={styles.modalContent}>
-          {isAiMode && aiError && (
-            <p className={styles.aiError}>AI recommendation unavailable. Using fallback.</p>
-          )}
-          <p className={styles.recommendation}>
-            We recommend studying subsection <strong>{recommendedSubsection.code}</strong>
-          </p>
-          {isAiRecommendation && aiSelection?.reason && (
-            <p className={styles.aiReason}>{aiSelection.reason}</p>
-          )}
-          <p className={styles.masteryInfo}>
-            Current mastery: {masterySummary}
-          </p>
-          {recommendedSubsection.lastStudied && (
-            <p className={styles.lastStudied}>
-              Last studied: {new Date(recommendedSubsection.lastStudied).toLocaleDateString()}
-            </p>
-          )}
-          <Link
-            to={`/quiz/${recommendedSubsection.code}`}
-            className={styles.confirmButton}
-            onClick={onClose}
-          >
-            Start Quiz
-          </Link>
-        </div>
-      ) : (
-        <p>No subsections available.</p>
-      )}
+    <Modal isOpen={isOpen} onClose={onClose} title="Start Quiz">
+      {isMasteriesLoading ? renderLoading("Finding the best subsection for you...") :
+        shouldShowAiLoading ? renderLoading("Checking with the AI tutor...") :
+        (isAiMode && !aiSelection) ? renderAiPrompt() :
+        renderRecommendation()}
     </Modal>
   )
 }

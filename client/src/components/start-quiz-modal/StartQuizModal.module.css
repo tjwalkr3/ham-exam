@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 .loading {
-  @apply text-center py-8;
+  @apply text-center pt-8 pb-8;
 }
 
 .spinner {
-  @apply w-12 h-12 mx-auto mb-4 border-4 border-slate-200 border-t-slate-800 rounded-full;
+  @apply w-12 h-12 mx-auto mb-6 border-4 border-slate-200 border-t-slate-800 rounded-full;
   animation: modal-spinner 1s linear infinite;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .modalContent {
-  @apply text-center py-4;
+  @apply text-center pt-4 pb-1;
 }
 
 .recommendation {
@@ -30,8 +30,16 @@
   @apply text-slate-600 mb-2;
 }
 
+.masteryInfoLast {
+  @apply text-slate-600 mb-6;
+}
+
 .lastStudied {
   @apply text-slate-500 text-sm mb-6;
+}
+
+.promptText {
+  @apply text-slate-600 mb-6;
 }
 
 .confirmButton {
