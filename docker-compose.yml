@@ -46,7 +46,7 @@ services:
       DATABASE_URL: postgres://appuser:apppassword@db:5432/appdb
       AI_SERVER: ${AI_SERVER}
       AI_TOKEN: ${AI_TOKEN}
-      JWK_URI: ${JWK_URI}
+      JWK_URI: http://keycloak:8080/realms/AppRealm/protocol/openid-connect/certs
     command: >-
       sh -c "npm install -g pnpm && pnpm install && pnpm exec tsx server.ts"
 
@@ -65,7 +65,7 @@ services:
       - .env
     environment:
       NODE_ENV: development
-      VITE_KEYCLOAK_AUTHORITY: ${VITE_KEYCLOAK_AUTHORITY}
+      VITE_KEYCLOAK_AUTHORITY: http://localhost:8080/realms/AppRealm
     command: >-
       sh -c "npm install -g pnpm && pnpm install && pnpm run dev -- --host"
 
