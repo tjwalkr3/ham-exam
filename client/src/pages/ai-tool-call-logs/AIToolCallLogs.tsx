@@ -4,6 +4,7 @@ import { fetchWrapper } from "../../utils/fetchWrapper";
 import { ToolCallLogArraySchema } from "../../zod-types/toolCallLogModel";
 import styles from "./AiToolCallLogs.module.css";
 import Header from "../../components/header/Header";
+import PleaseSignIn from "../../components/please-sign-in/PleaseSignIn";
 
 export default function AIToolCallLogs() {
   const auth = useAuth();
@@ -19,13 +20,37 @@ export default function AIToolCallLogs() {
     enabled: !!auth.user?.access_token,
   });
 
-  if (isLoading) return <div className={styles.container}>Loading...</div>;
-  if (error) return <div className={styles.container}>Error loading tool calls</div>;
+  if (!auth.isAuthenticated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <PleaseSignIn />
+      </div>
+    )
+  }
+
+  if (isLoading) return (
+    <div className={styles.container}>
+      <Header />
+      <main className={styles.main}>
+        Loading...
+      </main>
+    </div>
+  );
+
+  if (error) return (
+    <div className={styles.container}>
+      <Header />
+      <main className={styles.main}>
+        Error loading tool calls
+      </main>
+    </div>
+  );
 
   return (
-    <>
+    <div className={styles.container}>
       <Header />
-      <div className={styles.container}>
+      <main className={styles.main}>
         <h1 className={styles.title}>AI Tool Call Logs</h1>
         <div className={styles.list}>
           {toolCalls?.map((log) => (
@@ -44,7 +69,7 @@ export default function AIToolCallLogs() {
             <div className={styles.card}>No tool calls found.</div>
           )}
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }

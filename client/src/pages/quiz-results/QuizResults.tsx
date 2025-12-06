@@ -1,5 +1,7 @@
 import { useLocation, useParams, Link } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 import Header from '../../components/header/Header'
+import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
 import styles from './QuizResults.module.css'
 
 interface QuizResultsState {
@@ -8,9 +10,19 @@ interface QuizResultsState {
 }
 
 function QuizResults() {
+  const auth = useAuth();
   const location = useLocation();
   const { subsectionCode } = useParams<{ subsectionCode: string }>();
   const state = location.state as QuizResultsState;
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <PleaseSignIn />
+      </div>
+    )
+  }
 
   const { correct = 0, total = 0 } = state || {};
   const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;

@@ -1,6 +1,7 @@
 import { useAuth } from 'react-oidc-context'
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
+import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
 import { useSettings } from '../../context/settingsContext'
 import { useSubsectionMasteries } from '../../hooks/quizHooks'
 import styles from './SubsectionsPage.module.css'
@@ -15,6 +16,15 @@ function SubsectionsPage() {
 
   const handleCardClick = (code: string) => {
     navigate(`/quiz/${code}`)
+  }
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <PleaseSignIn />
+      </div>
+    )
   }
 
   return (
