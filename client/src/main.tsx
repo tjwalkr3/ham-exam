@@ -7,6 +7,7 @@ import Quiz from './pages/quiz/Quiz.tsx'
 import QuizResults from './pages/quiz-results/QuizResults.tsx'
 import LicenseProgress from './pages/license-progress/LicenseProgress.tsx'
 import { AuthProvider, type AuthProviderProps } from "react-oidc-context";
+import { WebStorageStateStore } from "oidc-client-ts";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SettingsProvider } from './context/SettingsProvider.tsx'
@@ -54,6 +55,7 @@ const oidcConfig : AuthProviderProps = {
   onSignoutCallback: () => {
     console.log("User signed out");
   },
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
 };
 
 createRoot(document.getElementById('root')!).render(
