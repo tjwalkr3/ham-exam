@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styles from './Question.module.css'
 import type { Questions } from '../../zod-types/questionModel'
+import Radio from '../radio/Radio'
 
 interface QuestionProps {
   questions: Questions;
@@ -32,30 +33,13 @@ function Question({ questions }: QuestionProps) {
 
   return (
     <div className={styles.card}>
-      {currentQuestion.figure && (
-        <div className={styles.figureContainer}>
-          <img 
-            src={`/figures/${currentQuestion.figure}`} 
-            alt="Question Figure" 
-            className={styles.figure}
-          />
-        </div>
-      )}
-      <h2 className={styles.question}>{currentQuestion.question}</h2>
-      
-      <div className={styles.answers}>
-        {currentQuestion.answers.map((answer, index) => (
-          <button
-            key={index}
-            className={`${styles.answer} ${selectedAnswer === index ? styles.selected : ''}`}
-            onClick={() => handleAnswerSelect(index)}
-            type="button"
-          >
-            <span className={styles.answerLabel}>{String.fromCharCode(65 + index)}.</span>
-            <span className={styles.answerText}>{answer}</span>
-          </button>
-        ))}
-      </div>
+      <Radio
+        question={currentQuestion.question}
+        answers={currentQuestion.answers}
+        figure={currentQuestion.figure}
+        selectedAnswer={selectedAnswer}
+        onChange={handleAnswerSelect}
+      />
 
       <div className={styles.navigation}>
         <button 
