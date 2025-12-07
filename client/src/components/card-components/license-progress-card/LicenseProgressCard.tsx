@@ -1,4 +1,4 @@
-import InfoCard from '../info-card/InfoCard'
+import InfoCard from '../../layout-components/info-card/InfoCard'
 import styles from './LicenseProgressCard.module.css'
 
 interface LicenseProgressCardProps {

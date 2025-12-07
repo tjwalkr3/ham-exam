@@ -15,7 +15,7 @@ import SubsectionsPage from './pages/subsections/SubsectionsPage.tsx'
 import Resources from './pages/resources/Resources.tsx'
 import AIToolCallLogs from './pages/ai-tool-call-logs/AIToolCallLogs.tsx'
 import { ErrorBoundary } from 'react-error-boundary'
-import AppToaster from './components/app-toaster/AppToaster.tsx'
+import AppToaster from './components/layout-components/app-toaster/AppToaster.tsx'
 import { handleQueryError } from './utils/queryErrorHandler.ts'
 import { toast } from 'react-hot-toast'
 

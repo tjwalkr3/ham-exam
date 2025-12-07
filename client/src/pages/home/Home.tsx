@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
-import Header from '../../components/header/Header'
-import InfoCard from '../../components/info-card/InfoCard'
+import Header from '../../components/layout-components/header/Header'
+import InfoCard from '../../components/layout-components/info-card/InfoCard'
 import styles from './Home.module.css'
 
 function Home() {

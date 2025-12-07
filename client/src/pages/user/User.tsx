@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useAuth } from "react-oidc-context";
 import { Link } from 'react-router-dom'
-import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
-import Header from '../../components/header/Header'
-import InfoCard from '../../components/info-card/InfoCard'
-import ExamCountdownCard from '../../components/exam-countdown-card/ExamCountdownCard'
-import StartQuizModal from '../../components/start-quiz-modal/StartQuizModal'
+import PleaseSignIn from '../../components/card-components/please-sign-in/PleaseSignIn'
+import Header from '../../components/layout-components/header/Header'
+import InfoCard from '../../components/layout-components/info-card/InfoCard'
+import ExamCountdownCard from '../../components/card-components/exam-countdown-card/ExamCountdownCard'
+import StartQuizModal from '../../components/quiz-components/start-quiz-modal/StartQuizModal'
 import { useSettings } from '../../context/settingsContext'
 import styles from './User.module.css'
 

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useAuth } from 'react-oidc-context'
-import Header from '../../components/header/Header'
-import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
+import Header from '../../components/layout-components/header/Header'
+import PleaseSignIn from '../../components/card-components/please-sign-in/PleaseSignIn'
 import styles from './LicenseProgress.module.css'
 import type { LicenseClass } from '../../context/settingsContext'
-import LicenseProgressCard from '../../components/license-progress-card/LicenseProgressCard'
+import LicenseProgressCard from '../../components/card-components/license-progress-card/LicenseProgressCard'
 import { LICENSE_DETAILS } from './licenseProgressUtils'
 import { useLicenseProgressData } from './useLicenseProgressData'
 

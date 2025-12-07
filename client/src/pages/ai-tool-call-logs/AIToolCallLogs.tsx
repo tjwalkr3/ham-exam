@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchWrapper } from "../../utils/fetchWrapper";
 import { ToolCallLogArraySchema } from "../../zod-types/toolCallLogModel";
 import styles from "./AiToolCallLogs.module.css";
-import Header from "../../components/header/Header";
-import PleaseSignIn from "../../components/please-sign-in/PleaseSignIn";
+import Header from "../../components/layout-components/header/Header";
+import PleaseSignIn from "../../components/card-components/please-sign-in/PleaseSignIn";
 
 export default function AIToolCallLogs() {
   const auth = useAuth();

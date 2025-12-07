@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context'
-import Header from '../../components/header/Header'
-import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
-import InfoCard from '../../components/info-card/InfoCard'
+import Header from '../../components/layout-components/header/Header'
+import PleaseSignIn from '../../components/card-components/please-sign-in/PleaseSignIn'
+import InfoCard from '../../components/layout-components/info-card/InfoCard'
 import styles from './Resources.module.css'
 
 const resources = [

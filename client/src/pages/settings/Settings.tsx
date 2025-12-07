@@ -1,8 +1,8 @@
-import Header from "../../components/header/Header";
-import InfoCard from "../../components/info-card/InfoCard";
+import Header from "../../components/layout-components/header/Header";
+import InfoCard from "../../components/layout-components/info-card/InfoCard";
 import styles from "./Settings.module.css";
 import { useSettings, type LicenseClass, type TopicSelectionMode } from "../../context/settingsContext";
-import Dropdown from "../../components/dropdown/Dropdown";
+import Dropdown from "../../components/form-components/dropdown/Dropdown";
 
 const LICENSE_OPTIONS: Array<{ value: LicenseClass; label: string }> = [
   { value: "T", label: "Technician" },

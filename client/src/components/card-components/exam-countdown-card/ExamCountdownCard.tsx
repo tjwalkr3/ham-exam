@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import { useAiMessages } from '../../hooks/aiHooks'
-import { useSettings } from '../../context/settingsContext'
+import { useAiMessages } from '../../../hooks/aiHooks'
+import { useSettings } from '../../../context/settingsContext'
 import {
   buildCountdownMessages,
   getCountdownStatus,
@@ -9,7 +9,7 @@ import {
   toLocalDateTimeInputValue,
 } from './examCounterCardUtils'
 import styles from './ExamCountdownCard.module.css'
-import DateSelector from '../date-selector/DateSelector'
+import DateSelector from '../../form-components/date-selector/DateSelector'
 
 interface ExamCountdownCardProps {
   token: string

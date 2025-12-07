@@ -1,4 +1,4 @@
-import type { MessageArray } from '../../zod-types/messageModel'
+import type { MessageArray } from '../../../zod-types/messageModel'
 
 type ToolCall = {
   function?: {

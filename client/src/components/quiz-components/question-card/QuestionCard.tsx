@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
 import styles from './QuestionCard.module.css'
-import type { Question } from '../../zod-types/questionModel'
-import { Spinner } from '../spinner/Spinner'
-import { useAiExplanation } from '../../hooks/aiHooks'
+import type { Question } from '../../../zod-types/questionModel'
+import { Spinner } from '../../layout-components/spinner/Spinner'
+import { useAiExplanation } from '../../../hooks/aiHooks'
 
 interface QuestionCardProps {
   question: Question;

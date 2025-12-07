@@ -1,6 +1,6 @@
-import type { MessageArray } from '../../zod-types/messageModel'
-import type { SubsectionMasteries, SubsectionMastery } from '../../zod-types/subsectionMasteryModel'
-import type { ToolCall } from '../../zod-types/toolCallModel'
+import type { MessageArray } from '../../../zod-types/messageModel'
+import type { SubsectionMasteries, SubsectionMastery } from '../../../zod-types/subsectionMasteryModel'
+import type { ToolCall } from '../../../zod-types/toolCallModel'
 
 export type AiSelection = {
   subsectionCode: string

@@ -1,7 +1,7 @@
 import { useLocation, useParams, Link } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
-import Header from '../../components/header/Header'
-import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
+import Header from '../../components/layout-components/header/Header'
+import PleaseSignIn from '../../components/card-components/please-sign-in/PleaseSignIn'
 import styles from './QuizResults.module.css'
 
 interface QuizResultsState {

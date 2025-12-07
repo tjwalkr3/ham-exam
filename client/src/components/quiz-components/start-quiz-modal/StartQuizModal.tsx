@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Modal from '../modal/Modal'
+import Modal from '../../layout-components/modal/Modal'
 import styles from './StartQuizModal.module.css'
-import { useSubsectionMasteries } from '../../hooks/quizHooks'
-import { useAiMessages } from '../../hooks/aiHooks'
-import type { LicenseClass, TopicSelectionMode } from '../../context/settingsContext'
+import { useSubsectionMasteries } from '../../../hooks/quizHooks'
+import { useAiMessages } from '../../../hooks/aiHooks'
+import type { LicenseClass, TopicSelectionMode } from '../../../context/settingsContext'
 import { buildSubsectionMessages, determineRecommendation, parseAiSelection, selectLowestMastery, type AiSelection } from './startQuizModalUtils'
 
 interface StartQuizModalProps {

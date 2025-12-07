@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './Question.module.css'
-import type { Questions } from '../../zod-types/questionModel'
-import Radio from '../radio/Radio'
+import type { Questions } from '../../../zod-types/questionModel'
+import Radio from '../../form-components/radio/Radio'
 
 interface QuestionProps {
   questions: Questions;
