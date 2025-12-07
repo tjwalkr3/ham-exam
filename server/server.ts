@@ -5,7 +5,6 @@ import aiRoutes from "./routes/aiRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
 
 const app = express();
-// Configure CORS to allow requests from the frontend
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   credentials: true,
