@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
 import Header from '../../components/header/Header'
 import InfoCard from '../../components/info-card/InfoCard'
+import ExamCountdownCard from '../../components/exam-countdown-card/ExamCountdownCard'
 import StartQuizModal from '../../components/start-quiz-modal/StartQuizModal'
 import { useSettings } from '../../context/settingsContext'
 import styles from './User.module.css'
@@ -50,6 +51,10 @@ function User() {
               <Link className={styles.cardButton} to="/license-progress">
                 View Progress
               </Link>
+            </InfoCard>
+
+            <InfoCard title="Time Until Exam">
+              <ExamCountdownCard token={token} />
             </InfoCard>
           </div>
 

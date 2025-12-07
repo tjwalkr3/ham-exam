@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+.container {
+  @apply flex flex-col gap-4;
+}
+
+.label {
+  @apply text-sm font-medium text-slate-700 flex flex-col gap-2;
+}
+
+.input {
+  @apply rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200;
+}
+
+.actions {
+  @apply flex flex-wrap gap-3;
+}
+
+.button {
+  @apply inline-flex items-center justify-center rounded-md bg-slate-800 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+.countdown {
+  @apply text-3xl font-semibold text-slate-800;
+}
+
+.placeholder {
+  @apply text-sm text-slate-500;
+}

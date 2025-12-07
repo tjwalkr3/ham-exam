@@ -83,6 +83,23 @@ const baseToolCalls: ToolArray = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "start_exam_countdown",
+      description: "Starts or resets the exam countdown timer to the provided ISO date/time.",
+      parameters: {
+        type: "object",
+        properties: {
+          targetTime: {
+            type: "string",
+            description: "ISO 8601 date/time for when the exam begins (e.g., 2025-12-06T15:30).",
+          },
+        },
+        required: ["targetTime"],
+      },
+    },
+  },
 ];
 
 export function getToolCalls() {

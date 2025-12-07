@@ -1,8 +1,9 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useState, useCallback } from "react";
 import { SettingsContext, type LicenseClass, type TopicSelectionMode } from "./settingsContext";
 
 const LICENSE_STORAGE_KEY = "ham-exam-license-class";
 const MODE_STORAGE_KEY = "ham-exam-topic-mode";
+const EXAM_DATE_STORAGE_KEY = "ham-exam-exam-date";
 const DEFAULT_LICENSE_CLASS: LicenseClass = "T";
 const DEFAULT_TOPIC_MODE: TopicSelectionMode = "ai";
 
@@ -26,6 +27,11 @@ function readTopicMode(): TopicSelectionMode {
   return DEFAULT_TOPIC_MODE;
 }
 
+function readExamDate(): string | null {
+  if (!isBrowser) return null;
+  return window.localStorage.getItem(EXAM_DATE_STORAGE_KEY);
+}
+
 interface SettingsProviderProps {
   children: ReactNode;
 }
@@ -33,24 +39,36 @@ interface SettingsProviderProps {
 export function SettingsProvider({ children }: SettingsProviderProps) {
   const [licenseClass, setLicenseClassState] = useState<LicenseClass>(() => readLicenseClass());
   const [topicSelectionMode, setTopicSelectionModeState] = useState<TopicSelectionMode>(() => readTopicMode());
+  const [examDate, setExamDateState] = useState<string | null>(() => readExamDate());
 
-  const setLicenseClass = (value: LicenseClass) => {
+  const setLicenseClass = useCallback((value: LicenseClass) => {
     setLicenseClassState(value);
     if (isBrowser) {
       window.localStorage.setItem(LICENSE_STORAGE_KEY, value);
     }
-  };
+  }, []);
 
-  const setTopicSelectionMode = (value: TopicSelectionMode) => {
+  const setTopicSelectionMode = useCallback((value: TopicSelectionMode) => {
     setTopicSelectionModeState(value);
     if (isBrowser) {
       window.localStorage.setItem(MODE_STORAGE_KEY, value);
     }
-  };
+  }, []);
+
+  const setExamDate = useCallback((value: string | null) => {
+    setExamDateState(value);
+    if (isBrowser) {
+      if (value) {
+        window.localStorage.setItem(EXAM_DATE_STORAGE_KEY, value);
+      } else {
+        window.localStorage.removeItem(EXAM_DATE_STORAGE_KEY);
+      }
+    }
+  }, []);
 
   return (
     <SettingsContext.Provider
-      value={{ licenseClass, setLicenseClass, topicSelectionMode, setTopicSelectionMode }}
+      value={{ licenseClass, setLicenseClass, topicSelectionMode, setTopicSelectionMode, examDate, setExamDate }}
     >
       {children}
     </SettingsContext.Provider>

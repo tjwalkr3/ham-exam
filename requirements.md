@@ -1,22 +1,22 @@
 ## Subsections Page
 
 **Background**
-* Currently, in this app, I can allow a user to start a quiz based on an algorithm with the start quiz button, but there is no option to start a quiz manually. 
-* There is currently an API endpoint that allows the user to get a list of masteries for all subsections in their current license class. I have also creates a hook that calls this endpoint called useSubsectionMasteries. 
+* Currently, the /user page has a vertical collection of cards in it. I want one of these cards to hold a countdown timer in it. 
+* I want everything related to this countdown timer to be contained within the component that goes inside of this card. 
+* I need a fourth tool call to fulfill the requirements of this assignment, so I want the countdown timer to be initiated with a tool call. 
 
 **Steps**
 1. Create a new page that contains a vertical list that can contain the different subsections and their associated masteries. 
-  * Each subsection and its mastery level should be in a small, skinny card that stretches horizontally. 
-  * Inside of this card, on desktop, there should be a simple progress bar with a percentage in front of it that is aligned to the right side of the card. The name of the subsection should be aligned to the left side of the card. 
-  * On mobile, the name of the subsection should go above the progress bar and they should both be aligned left. 
-2. Use the useSubsectionMasteries to get the list of subsections. 
-3. There should be a loop that renders these cards for the collection of subsections. 
-4. When one of these cards is clicked, it should link to the quiz for that particular subsection. 
-5. There should be a route (subsections) added for this page. 
-6. A menu entry for this page should be added to the side bar. 
+  * Create a new card component (an instance of the one that I made). 
+  * Create a countdown timer and a generic date/time selector in the card. 
+  * The card header should say "Time Until Exam". 
+  * Make a function that can be called to start the live countdown timer. 
+  * Make a tool call that can call this function. It should be able to take in the time the user selected and call the function that starts the timer. 
+  * Wire everything together, so that the user can pick a time, and it initiates a tool call that automatically sets (or resets) the timer. 
 
 **Rules**
-* Add all styles inside of a css module in this page's folder. 
+* Add all styles inside of a css module in this component's folder. 
 * Only use tailwind styles in this css module. 
 * Do not create unnecessary markdown docs or unnecessary comments. 
 * DO not make the logic in this page unnecessarily complex, do it simply. 
+* There should not be many lines of code for this, and lines of code should be simple and easy to understand. 
