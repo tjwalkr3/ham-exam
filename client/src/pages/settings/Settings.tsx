@@ -2,6 +2,7 @@ import Header from "../../components/header/Header";
 import InfoCard from "../../components/info-card/InfoCard";
 import styles from "./Settings.module.css";
 import { useSettings, type LicenseClass, type TopicSelectionMode } from "../../context/settingsContext";
+import Dropdown from "../../components/dropdown/Dropdown";
 
 const LICENSE_OPTIONS: Array<{ value: LicenseClass; label: string }> = [
   { value: "T", label: "Technician" },
@@ -33,45 +34,23 @@ function Settings() {
           <div className={styles.cardContent}>
             <p className={styles.helperText}>Configure how quizzes and recommendations are tailored to you.</p>
 
-            <div className={styles.section}>
-              <label className={styles.label} htmlFor="license-class">
-                License Class
-              </label>
-              <select
-                id="license-class"
-                className={styles.select}
-                value={licenseClass}
-                onChange={(event) => setLicenseClass(event.target.value as LicenseClass)}
-              >
-                {LICENSE_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <p className={styles.helperText}>All quiz content and AI prompts will use this license class.</p>
-            </div>
+            <Dropdown
+              id="license-class"
+              label="License Class"
+              value={licenseClass}
+              onChange={(value) => setLicenseClass(value as LicenseClass)}
+              options={LICENSE_OPTIONS}
+              helperText="All quiz content and AI prompts will use this license class."
+            />
 
-            <div className={styles.section}>
-              <label className={styles.label} htmlFor="topic-mode">
-                Topic Selection Mode
-              </label>
-              <select
-                id="topic-mode"
-                className={styles.select}
-                value={topicSelectionMode}
-                onChange={(event) => setTopicSelectionMode(event.target.value as TopicSelectionMode)}
-              >
-                {TOPIC_MODE_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <p className={styles.helperText}>
-                {TOPIC_MODE_OPTIONS.find((option) => option.value === topicSelectionMode)?.helper}
-              </p>
-            </div>
+            <Dropdown
+              id="topic-mode"
+              label="Topic Selection Mode"
+              value={topicSelectionMode}
+              onChange={(value) => setTopicSelectionMode(value as TopicSelectionMode)}
+              options={TOPIC_MODE_OPTIONS}
+              helperText={TOPIC_MODE_OPTIONS.find((option) => option.value === topicSelectionMode)?.helper}
+            />
           </div>
         </InfoCard>
       </main>
