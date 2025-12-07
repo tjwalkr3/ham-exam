@@ -1,4 +1,4 @@
-import type { ToolArray } from "../zod-types/toolModel";
+import type { ToolArray } from "./zod-types/toolModel";
 
 export const LICENSE_OUTLOOKS = [
   { label: "Excellent", colorHex: "#16a34a" },

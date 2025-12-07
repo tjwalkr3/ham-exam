@@ -2,7 +2,7 @@ import type { LicenseClass } from '../../context/settingsContext'
 import type { SubsectionMasteries } from '../../zod-types/subsectionMasteryModel'
 import type { MessageArray } from '../../zod-types/messageModel'
 import type { ToolCall } from '../../zod-types/toolCallModel'
-import { LICENSE_OUTLOOKS } from '../../tooling/toolCalls'
+import { LICENSE_OUTLOOKS } from '../../toolCalls'
 
 const PASS_THRESHOLD = 0.74
 const STRONG_THRESHOLD = 0.8

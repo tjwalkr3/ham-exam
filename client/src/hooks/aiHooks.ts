@@ -2,7 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { fetchWrapper } from "../utils/fetchWrapper";
 import { ChatResponseSchema, type ChatResponse } from "../zod-types/chatResponseModel";
 import type { MessageArray } from "../zod-types/messageModel";
-import { getToolCalls } from "../tooling/toolCalls";
+import { getToolCalls } from "../toolCalls";
 import type { Question } from '../zod-types/questionModel';
 
 interface AiMessageParams {
