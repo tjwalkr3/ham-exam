@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SettingsProvider } from './context/SettingsProvider.tsx'
 import Settings from './pages/settings/Settings.tsx'
+import SubsectionsPage from './pages/subsections/SubsectionsPage.tsx'
 import Resources from './pages/resources/Resources.tsx'
 import AIToolCallLogs from './pages/ai-tool-call-logs/AIToolCallLogs.tsx'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -71,6 +72,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/license-progress" element={<LicenseProgress />} />
                 <Route path="/quiz/:subsectionCode" element={<Quiz />} />
                 <Route path="/quiz-results/:subsectionCode" element={<QuizResults />} />
+                <Route path="/subsections" element={<SubsectionsPage />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/ai-tool-calls" element={<AIToolCallLogs />} />

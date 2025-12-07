@@ -1,4 +1,6 @@
+import { useAuth } from 'react-oidc-context'
 import Header from '../../components/header/Header'
+import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
 import InfoCard from '../../components/info-card/InfoCard'
 import styles from './Resources.module.css'
 
@@ -38,6 +40,17 @@ const resources = [
 ]
 
 function Resources() {
+  const auth = useAuth()
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <PleaseSignIn />
+      </div>
+    )
+  }
+
   return (
     <div className={styles.container}>
       <Header />

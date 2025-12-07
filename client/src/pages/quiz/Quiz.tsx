@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from 'react-oidc-context'
 import { useParams, useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header'
+import PleaseSignIn from '../../components/please-sign-in/PleaseSignIn'
 import Carousel from '../../components/carousel/Carousel'
 import QuestionCard from '../../components/question-card/QuestionCard'
 import styles from './Quiz.module.css'
@@ -16,6 +17,15 @@ function Quiz() {
   const submitAnswer = useSubmitAnswer(token);
   const [submittedQuestions, setSubmittedQuestions] = useState<Set<number>>(new Set());
   const [correctCount, setCorrectCount] = useState(0);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <PleaseSignIn />
+      </div>
+    )
+  }
 
   const handleQuestionSubmit = (index: number, questionId: string, correct: boolean) => {
     setSubmittedQuestions(prev => new Set(prev).add(index));

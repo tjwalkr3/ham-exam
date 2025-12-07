@@ -8,6 +8,8 @@ export interface SettingsContextValue {
   setLicenseClass: (value: LicenseClass) => void;
   topicSelectionMode: TopicSelectionMode;
   setTopicSelectionMode: (value: TopicSelectionMode) => void;
+  examDate: string | null;
+  setExamDate: (value: string | null) => void;
 }
 
 export const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
