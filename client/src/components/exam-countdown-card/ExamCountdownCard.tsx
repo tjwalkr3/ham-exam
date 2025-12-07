@@ -71,6 +71,12 @@ function ExamCountdownCard({ token }: ExamCountdownCardProps) {
 
   return (
     <div className={styles.container}>
+      {displayValue ? (
+        <div className={styles.countdown}>{displayValue}</div>
+      ) : (
+        <div className={styles.placeholder}>Set a date to start the countdown.</div>
+      )}
+
       <label className={styles.label}>
         Select date and time
         <input
@@ -91,12 +97,6 @@ function ExamCountdownCard({ token }: ExamCountdownCardProps) {
           {aiQuery.isFetching ? 'Contacting AI...' : 'Set Countdown'}
         </button>
       </div>
-
-      {displayValue ? (
-        <div className={styles.countdown}>{displayValue}</div>
-      ) : (
-        <div className={styles.placeholder}>Set a date to start the countdown.</div>
-      )}
     </div>
   )
 }
