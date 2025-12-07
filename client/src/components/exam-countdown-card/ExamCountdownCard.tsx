@@ -9,6 +9,7 @@ import {
   toLocalDateTimeInputValue,
 } from './examCounterCardUtils'
 import styles from './ExamCountdownCard.module.css'
+import DateSelector from '../date-selector/DateSelector'
 
 interface ExamCountdownCardProps {
   token: string
@@ -77,15 +78,10 @@ function ExamCountdownCard({ token }: ExamCountdownCardProps) {
         <div className={styles.placeholder}>Set a date to start the countdown.</div>
       )}
 
-      <label className={styles.label}>
-        Select date and time
-        <input
-          className={styles.input}
-          type="datetime-local"
-          value={targetValue}
-          onChange={(event) => setTargetValue(event.target.value)}
-        />
-      </label>
+      <DateSelector
+        value={targetValue}
+        onChange={setTargetValue}
+      />
 
       <div className={styles.actions}>
         <button

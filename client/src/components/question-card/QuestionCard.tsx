@@ -113,7 +113,7 @@ function QuestionCard({ question, onSubmit }: QuestionCardProps) {
 
       {isLoadingExplanation && (
         <div className={styles.explanationContainer}>
-           <Spinner />
+          <Spinner />
         </div>
       )}
 
